@@ -22,12 +22,15 @@ vec3 decode(vec2 enc)
 
 layout(set = 0, binding = 0) uniform sampler2D iChannel0;  // Normal + depth
 
+layout(set = 0, binding = 1) buffer zValues
+{
+  int minmax[2];  // zNear and zFar, from the compute shader deapthminmax.comp
+};
+
 layout(push_constant) uniform params_
 {
   float NormalDiffCoeff;
   float DepthDiffCoeff;
-  float zNear;
-  float zFar;
 };
 
 
@@ -35,17 +38,17 @@ layout(location = 0) in vec2 fragCoord;
 layout(location = 0) out float fragColor;
 
 
-float Fdepth(float Z)
+float Fdepth(in float Z, in float zNear, in float zFar)
 {
   return abs((1. / Z - 1. / zNear) / ((1. / zFar) - (1. / zNear)));
 }
 
-float FNdepth(float Z)
+float FNdepth(in float Z, in float zNear, in float zFar)
 {
   return (Z - zNear) / (zFar - zNear);
 }
 
-float Gradient(ivec2 texelCoord)
+float Gradient(ivec2 texelCoord, float zNear, float zFar)
 {
   vec4 A = texelFetchOffset(iChannel0, texelCoord, 0, ivec2(-1.0, +1.0));  //  +---+---+---+
   vec4 B = texelFetchOffset(iChannel0, texelCoord, 0, ivec2(+0.0, +1.0));  //  | A | B | C |
@@ -89,15 +92,15 @@ float Gradient(ivec2 texelCoord)
   float Dgrad = 0;
   {
     // https://www.cs.princeton.edu/courses/archive/fall00/cs597b/papers/saito90.pdf
-    A.z = Fdepth(A.z);
-    B.z = Fdepth(B.z);
-    C.z = Fdepth(C.z);
-    D.z = Fdepth(D.z);
-    E.z = Fdepth(E.z);
-    F.z = Fdepth(F.z);
-    G.z = Fdepth(G.z);
-    H.z = Fdepth(H.z);
-    X.z = Fdepth(X.z);
+    A.z = Fdepth(A.z, zNear, zFar);
+    B.z = Fdepth(B.z, zNear, zFar);
+    C.z = Fdepth(C.z, zNear, zFar);
+    D.z = Fdepth(D.z, zNear, zFar);
+    E.z = Fdepth(E.z, zNear, zFar);
+    F.z = Fdepth(F.z, zNear, zFar);
+    G.z = Fdepth(G.z, zNear, zFar);
+    H.z = Fdepth(H.z, zNear, zFar);
+    X.z = Fdepth(X.z, zNear, zFar);
 
     float g = (abs(A.z + 2 * B.z + C.z - F.z - 2 * G.z - H.z) + abs(C.z + 2 * E.z + H.z - A.z - 2 * D.z - F.z)) / 8.0;
     float l = (8 * X.z - A.z - B.z - C.z - D.z - E.z - F.z - G.z - H.z) / 3.0;
@@ -115,5 +118,8 @@ void main()
   ivec2 size       = textureSize(iChannel0, 0);
   ivec2 texelCoord = ivec2(vec2(size) * fragCoord.st);
 
-  fragColor = Gradient(texelCoord);
+  float zNear = intBitsToFloat(minmax[0]);
+  float zFar  = intBitsToFloat(minmax[1]);
+
+  fragColor = Gradient(texelCoord, zNear, zFar);
 }

@@ -43,24 +43,38 @@ public:
   void execute(const vk::CommandBuffer& cmdBuf, const vk::Extent2D& size)
   {
     float big{10000.f};
-    m_minmax = {*reinterpret_cast<uint32_t*>(&big), 0};
+    m_minmax = {*reinterpret_cast<uint32_t*>(&big), 0};  // Resetting zNear and zFar values (floatBitsToInt)
     cmdBuf.updateBuffer<uint32_t>(m_values.buffer, 0, m_minmax);
     cmdBuf.bindPipeline(vk::PipelineBindPoint::eCompute, m_pipeline);
     cmdBuf.bindDescriptorSets(vk::PipelineBindPoint::eCompute, m_pipelineLayout, 0, {m_descSet}, {});
-    cmdBuf.dispatch(size.width / 32, size.height / 32, 1);
+    cmdBuf.dispatch(size.width / 32 + 1, size.height / 32 + 1, 1);
 
-    {
-      void* mapped = m_alloc->map(m_values);
-      memcpy(m_minmax.data(), mapped, 2 * sizeof(float));
-      m_alloc->unmap(m_values);
-    }
+    // Adding a barrier to make sure the compute is done before one of the fragment
+	// shader picks up the values computed here.
+    vk::BufferMemoryBarrier bmb;
+    bmb.setSrcAccessMask(vk::AccessFlagBits::eShaderWrite);
+    bmb.setDstAccessMask(vk::AccessFlagBits::eShaderRead);
+    bmb.setOffset(0);
+    bmb.setSize(VK_WHOLE_SIZE);
+    bmb.setSize(VK_WHOLE_SIZE);
+    bmb.setBuffer(m_values.buffer);
+    cmdBuf.pipelineBarrier(vk::PipelineStageFlagBits::eComputeShader, vk::PipelineStageFlagBits::eFragmentShader,
+                           vk::DependencyFlagBits::eDeviceGroup, 0, nullptr, 1, &bmb, 0, nullptr);
   }
 
   void getNearFar(float& near_, float& far_)
   {
-    near_ = *reinterpret_cast<float*>(&m_minmax[0]);
+    {
+      m_device.waitIdle();  // Must wait to be sure to get synchronization (use only for debug)
+      void* mapped = m_alloc->map(m_values);
+      memcpy(m_minmax.data(), mapped, 2 * sizeof(float));
+      m_alloc->unmap(m_values);
+    }
+
+    near_ = *reinterpret_cast<float*>(&m_minmax[0]);  // intBitsToFloat
     far_  = *reinterpret_cast<float*>(&m_minmax[1]);
   }
+  const nvvk::Buffer& getBuffer() { return m_values; }  // zNear - zFar
 
   void destroy()
   {

@@ -42,22 +42,21 @@ public:
     PostEffect::setup(device, physicalDevice, queueIndex, allocator);
   }
 
-  void setNearFar(float near_, float far_)
-  {
-    m_pushCnt.zNear = near_;
-    m_pushCnt.zFar  = far_;
-  }
-
   void initialize(const VkExtent2D& size) override
   {
     m_fxaa.initialize(size);
     PostEffect::initialize(size);
   }
 
-  void setInputs(const std::vector<nvvk::Texture>& inputs) override
+  void setInputs(const std::vector<nvvk::Texture>& inputs, const nvvk::Buffer& minMaxBuffer)
   {
     m_fxaa.setInputs({m_output});
-    PostEffect::setInputs(inputs);
+
+    std::vector<vk::WriteDescriptorSet> writes;
+    writes.emplace_back(m_descSetBind.makeWrite(m_descSet, 0, &inputs[0].descriptor));  // ray tracing
+    vk::DescriptorBufferInfo bufInfo{minMaxBuffer.buffer, 0, VK_WHOLE_SIZE};
+    writes.emplace_back(m_descSetBind.makeWrite(m_descSet, 1, &bufInfo));  // zNear - zFar from compute shader
+    m_device.updateDescriptorSets(writes, nullptr);
   }
 
   void updateRenderTarget(const VkExtent2D& size) override
@@ -105,6 +104,8 @@ private:
     vk::PushConstantRange push_constants = {vk::ShaderStageFlagBits::eFragment, 0, sizeof(PushConstant)};
 
     m_descSetBind.addBinding(vkDS(0, vkDT::eCombinedImageSampler, 1, vkSS::eFragment));  // Normal/depth from ray tracing
+    m_descSetBind.addBinding(vkDS(1, vkDT::eStorageBuffer, 1, vkSS::eFragment));         // Min/Max
+
     m_descSetLayout  = m_descSetBind.createLayout(m_device);
     m_descPool       = m_descSetBind.createPool(m_device);
     m_descSet        = nvvk::allocateDescriptorSet(m_device, m_descPool, m_descSetLayout);
@@ -116,8 +117,6 @@ private:
   {
     float normalDiffCoeff{0.5f};
     float depthDiffCoeff{1.f};
-    float zNear{0.1f};
-    float zFar{1000.f};
   };
   PushConstant m_pushCnt;
 

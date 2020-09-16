@@ -306,20 +306,15 @@ void VkToonExample::display()
 
         // Extract the near and far, and set those values to the Normal/Depth extraction
         m_depthMinMax.execute(cmdBuf, m_size);
-        float n, f;
-        m_depthMinMax.getNearFar(n, f);
-        m_nrmDepth.setNearFar(n, f);
       }
     }
     else  // Rasterizing
     {
       auto dgbLabel = m_debug.scopeLabel(cmdBuf, "rasterizing");
       m_rasterizer.run(cmdBuf, m_descSet[eScene], m_frameNumber);
+
       // Extract the near and far, and set those values to the Normal/Depth extraction
       m_depthMinMax.execute(cmdBuf, m_size);
-      float n, f;
-      m_depthMinMax.getNearFar(n, f);
-      m_nrmDepth.setNearFar(n, f);
     }
 
     // Apply tonemapper, its output is set in the descriptor set
@@ -641,14 +636,14 @@ void VkToonExample::settingPostPipeline()
   if(m_raytracer.isValid() && m_useRaytracer)
   {
     m_tonemapper.setInputs(m_raytracer.outputImages());
-    m_nrmDepth.setInputs({m_raytracer.outputImages()[1]});
+    m_nrmDepth.setInputs({m_raytracer.outputImages()[1]}, m_depthMinMax.getBuffer());
     m_objContour.setInputs({m_raytracer.outputImages()[1]});
     m_depthMinMax.setInput(m_raytracer.outputImages()[1]);
   }
   else
   {
     m_tonemapper.setInputs(m_rasterizer.outputImages());
-    m_nrmDepth.setInputs({m_rasterizer.outputImages()[1]});
+    m_nrmDepth.setInputs({m_rasterizer.outputImages()[1]}, m_depthMinMax.getBuffer());
     m_objContour.setInputs({m_rasterizer.outputImages()[1]});
     m_depthMinMax.setInput(m_rasterizer.outputImages()[1]);
   }
