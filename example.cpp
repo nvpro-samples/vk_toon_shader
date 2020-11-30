@@ -117,11 +117,7 @@ void VkToonExample::loadScene(const std::string& filename)
   // Set the camera to see the scene
   if(!m_gltfScene.m_cameras.empty())
   {
-    nvmath::vec3f eye;
-    m_gltfScene.m_cameras[0].worldMatrix.get_translation(eye);
-    float len = nvmath::length(m_gltfScene.m_dimensions.center - eye);
-    CameraManip.setMatrix(m_gltfScene.m_cameras[0].worldMatrix, true, len);
-    CameraManip.setFov(rad2deg(m_gltfScene.m_cameras[0].cam.perspective.yfov));
+    CameraManip.setLookat(m_gltfScene.m_cameras[0].eye, m_gltfScene.m_cameras[0].center, m_gltfScene.m_cameras[0].up);
   }
 
   // Create buffers with all scene information: vertex, normal, material, ...
@@ -842,7 +838,8 @@ void VkToonExample::drawUI()
   ImGui::NewFrame();
   ImGui::SetNextWindowPos(ImVec2(0, 0));
 
-  ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+  ImGuiH::Panel::Begin();
+  //  ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
   int renderer = m_useRaytracer && m_raytracer.isValid() ? 1 : 0;
   ImGuiDisabled(!m_raytracer.isValid());

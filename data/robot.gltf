@@ -2695,32 +2695,69 @@
   "cameras": [
     {
       "extensions": {
-        "NV_Iray": {
-          "mip_burn_highlights": 1.0,
-          "mip_camera_shutter": 0.25,
-          "mip_cm2_factor": 1.0,
-          "mip_crush_blacks": 0.5,
-          "mip_f_number": 2.0,
-          "mip_film_iso": 100.0,
-          "mip_gamma": 2.200000047683716,
-          "mip_lens_distortion_params": [
-            0.004999999888241291,
-            -0.017000000923871994,
-            0.003000000026077032
-          ],
-          "mip_lens_distortion_scale": 3.0,
-          "mip_lens_distortion_type": "ptlens",
-          "mip_lens_focus": 0.0,
-          "mip_lens_radius": 0.0,
-          "mip_saturation": 1.0,
-          "mip_vignetting": 2.0,
-          "mip_whitepoint": [
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ],
-          "tm_tonemapper": "mia_exposure_photographic"
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "mip_burn_highlights",
+              "type": "Float32",
+              "value": 0.699999988079071
+            },
+            {
+              "name": "mip_crush_blacks",
+              "type": "Float32",
+              "value": 0.5
+            },
+            {
+              "name": "mip_f_number",
+              "type": "Float32",
+              "value": 16.0
+            },
+            {
+              "name": "mip_saturation",
+              "type": "Float32",
+              "value": 1.0
+            },
+            {
+              "name": "mip_cm2_factor",
+              "type": "Float32",
+              "value": 1.0
+            },
+            {
+              "name": "mip_vignetting",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "mip_gamma",
+              "type": "Float32",
+              "value": 2.200000047683716
+            },
+            {
+              "name": "mip_whitepoint",
+              "type": "Color",
+              "value": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "name": "mip_film_iso",
+              "type": "Float32",
+              "value": 100.0
+            },
+            {
+              "name": "tm_tonemapper",
+              "type": "String",
+              "value": "mia_exposure_photographic"
+            },
+            {
+              "name": "mip_camera_shutter",
+              "type": "Float32",
+              "value": 125.0
+            }
+          ]
         }
       },
       "extras": {
@@ -2732,7 +2769,7 @@
       "name": "default",
       "perspective": {
         "aspectRatio": 1.5,
-        "yfov": 0.6500215649604797,
+        "yfov": 0.6795218586921692,
         "zfar": 10000.0,
         "znear": 0.10000000149011612
       },
@@ -2740,258 +2777,231 @@
     }
   ],
   "extensions": {
-    "NV_MDL": {
+    "NV_materials_mdl": {
       "modules": [
-        "mdl::base",
-        "mdl::gltf_support",
-        "mdl::nvidia::core_definitions",
-        "mdl::state"
+        "::base",
+        "::gltf_support"
       ],
       "shaders": [
         {
-          "arguments": {
-            "texture": 0
-          },
-          "definition": "mdl::base::environment_spherical(texture_2d)",
+          "arguments": [
+            {
+              "name": "multiplier",
+              "value": 0.10100000351667404
+            },
+            {
+              "name": "rgb_unit_conversion",
+              "value": [
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            {
+              "name": "haze",
+              "value": 0.0
+            },
+            {
+              "name": "saturation",
+              "value": 1.0
+            },
+            {
+              "name": "horizon_height",
+              "value": 0.0
+            },
+            {
+              "name": "sun_direction",
+              "value": [
+                -0.1975499987602234,
+                0.9536399841308594,
+                0.22705000638961792
+              ]
+            },
+            {
+              "name": "sun_disk_intensity",
+              "value": 1.0
+            },
+            {
+              "name": "sun_disk_scale",
+              "value": 4.0
+            }
+          ],
+          "definition": "::base::sun_and_sky(bool,float,color,float,float,float,float,float,color,color,float3,float,float,float,bool,int,bool)",
           "name": "env_shd"
         },
         {
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
-          ],
+          "definition": "::gltf_support::gltf_material",
           "name": "SimpleLayer_mat_66"
         },
         {
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
-          ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_blinn1SG"
         },
         {
-          "arguments": {
-            "base_color_factor": [
-              0.7817509770393372,
-              0.7893139719963074,
-              0.6592239737510681
-            ],
-            "roughness_factor": 0.0010000000474974513
-          },
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.7817509770393372,
+                0.7893139719963074,
+                0.6592239737510681
+              ]
+            },
+            {
+              "name": "roughness_factor",
+              "value": 0.0010000000474974513
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_mia_material_x1SG"
         },
         {
-          "arguments": {
-            "base_color": [
-              0.019899999722838402,
-              0.019899999722838402,
-              0.019899999722838402
-            ],
-            "diffuse_roughness": 0.5,
-            "normal=": 5,
-            "reflection_roughness": 0.5
-          },
-          "definition": "mdl::nvidia::core_definitions::flex_material",
-          "hash": [
-            "0xcdccb2f5",
-            "0xccfa4281",
-            "0x41aa45c6",
-            "0x53936269"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.019899999722838402,
+                0.019899999722838402,
+                0.019899999722838402
+              ]
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_mtl_rubber"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_78926164"
-        },
-        {
-          "arguments": {
-            "normal=": 7
-          },
-          "definition": "mdl::nvidia::core_definitions::metal",
-          "hash": [
-            "0x2d53e6d9",
-            "0xc88424e4",
-            "0xcd770396",
-            "0x6b4e65b6"
+          "arguments": [
+            {
+              "name": "roughness_factor",
+              "value": 0.05000000074505806
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_mia_material_x1SG_4"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_37532566"
-        },
-        {
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
-          ],
+          "definition": "::gltf_support::gltf_material",
           "name": "SimpleLayer_mat_39"
         },
         {
-          "arguments": {
-            "base_color": [
-              0.019899999722838402,
-              0.019899999722838402,
-              0.019899999722838402
-            ],
-            "normal=": 10,
-            "reflection_roughness": 0.6000000238418579
-          },
-          "definition": "mdl::nvidia::core_definitions::flex_material",
-          "hash": [
-            "0xcdccb2f5",
-            "0xccfa4281",
-            "0x41aa45c6",
-            "0x53936269"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.019899999722838402,
+                0.019899999722838402,
+                0.019899999722838402
+              ]
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_mtl_rubber_3"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_63955851"
-        },
-        {
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
-          ],
+          "definition": "::gltf_support::gltf_material",
           "name": "SimpleLayer_mat"
         },
         {
-          "arguments": {
-            "diffuse_color": [
-              0.05999999865889549,
-              0.2800000011920929,
-              0.0
-            ],
-            "normal=": 13
-          },
-          "definition": "mdl::nvidia::core_definitions::diffuse",
-          "hash": [
-            "0x5450b04f",
-            "0x0961f5b9",
-            "0xaaa1356f",
-            "0x948dab7d"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.05999999865889549,
+                0.2800000011920929,
+                0.0
+              ]
+            },
+            {
+              "name": "roughness_factor",
+              "value": 0.0
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "FresnelDiffuseGlossy_mat"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_92018179"
-        },
-        {
-          "arguments": {
-            "diffuse_color": [
-              0.4480000138282776,
-              0.0,
-              0.0
-            ],
-            "normal=": 15
-          },
-          "definition": "mdl::nvidia::core_definitions::diffuse",
-          "hash": [
-            "0x5450b04f",
-            "0x0961f5b9",
-            "0xaaa1356f",
-            "0x948dab7d"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.4480000138282776,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "name": "roughness_factor",
+              "value": 0.0
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "robot_03_mia_material_x2SG"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_44362412"
-        },
-        {
-          "arguments": {
-            "base_color": [
-              0.2508400082588196,
-              0.2508400082588196,
-              0.2508400082588196
-            ],
-            "ior": 30.0,
-            "is_metal": true,
-            "normal=": 17,
-            "reflection_roughness": 0.0,
-            "reflectivity": 0.800000011920929
-          },
-          "definition": "mdl::nvidia::core_definitions::flex_material",
-          "hash": [
-            "0xcdccb2f5",
-            "0xccfa4281",
-            "0x41aa45c6",
-            "0x53936269"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.2508400082588196,
+                0.2508400082588196,
+                0.2508400082588196
+              ]
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "FresnelDiffuseGlossy_mat_3"
         },
         {
-          "definition": "mdl::state::normal()",
-          "name": "mdl::state::normal()_94869365"
-        },
-        {
-          "arguments": {
-            "base_color_factor": [
-              0.7799999713897705,
-              0.7900000214576721,
-              0.7599999904632568
-            ],
-            "roughness_factor": 0.0
-          },
-          "definition": "mdl::gltf_support::gltf_material",
-          "hash": [
-            "0x2b557fab",
-            "0x5f2f13b5",
-            "0x5dbe3123",
-            "0x469f59c1"
+          "arguments": [
+            {
+              "name": "base_color_factor",
+              "value": [
+                0.7799999713897705,
+                0.7900000214576721,
+                0.7599999904632568
+              ]
+            },
+            {
+              "name": "roughness_factor",
+              "value": 0.0
+            }
           ],
+          "definition": "::gltf_support::gltf_material",
           "name": "initialShadingGroup"
         }
       ]
     }
   },
   "extensionsUsed": [
-    "NV_MDL",
-    "NV_Iray",
-    "KHR_lights_punctual"
+    "NV_materials_mdl",
+    "KHR_lights_punctual",
+    "NV_attributes_iray"
   ],
   "materials": [
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 1
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 1
+        }
       },
       "name": "SimpleLayer_mat_66"
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 2
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 2
+        }
       },
       "name": "robot_03_blinn1SG"
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 3
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 3
+        }
       },
       "name": "robot_03_mia_material_x1SG",
       "pbrMetallicRoughness": {
@@ -3006,8 +3016,10 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 4
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 4
+        }
       },
       "name": "robot_03_mtl_rubber",
       "pbrMetallicRoughness": {
@@ -3021,8 +3033,10 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 6
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 5
+        }
       },
       "name": "robot_03_mia_material_x1SG_4",
       "pbrMetallicRoughness": {
@@ -3031,15 +3045,19 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 8
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 6
+        }
       },
       "name": "SimpleLayer_mat_39"
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 9
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 7
+        }
       },
       "name": "robot_03_mtl_rubber_3",
       "pbrMetallicRoughness": {
@@ -3053,15 +3071,19 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 11
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 8
+        }
       },
       "name": "SimpleLayer_mat"
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 12
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 9
+        }
       },
       "name": "FresnelDiffuseGlossy_mat",
       "pbrMetallicRoughness": {
@@ -3076,8 +3098,10 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 14
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 10
+        }
       },
       "name": "robot_03_mia_material_x2SG",
       "pbrMetallicRoughness": {
@@ -3092,8 +3116,10 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 16
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 11
+        }
       },
       "name": "FresnelDiffuseGlossy_mat_3",
       "pbrMetallicRoughness": {
@@ -3107,8 +3133,10 @@
     },
     {
       "doubleSided": true,
-      "extras": {
-        "mdl_shader": 18
+      "extensions": {
+        "NV_materials_mdl": {
+          "mdl_shader": 12
+        }
       },
       "name": "initialShadingGroup",
       "pbrMetallicRoughness": {
@@ -3833,24 +3861,50 @@
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": 1,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            0.7664488554000854,
-            2.0547523498535156,
-            0.1170625314116478
-          ],
-          "iview:position": [
-            2.3785719871520996,
-            0.83669114112854,
-            -9.658679962158203
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": 1
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                -1.360,
+                2.137,
+                -0.805
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                2.622,
+                2.479,
+                -4.961
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
           ]
         }
       },
@@ -3859,17 +3913,17 @@
         -1.488438171388914e-10,
         -0.16271286472379518,
         -0.0,
-        0.019854422732176486,
-        0.9925274985065878,
-        -0.1203950985156172,
+        0.019854422732176493,
+        0.9925274985065877,
+        -0.12039509851561718,
         0.0,
-        0.1614969933716373,
-        -0.12202122010521572,
+        0.16149699337163734,
+        -0.12202122010521571,
         -0.9793005160227503,
         -0.0,
-        2.3785719188541536,
+        2.378571918854154,
         0.836691164942073,
-        -9.658679587697927,
+        -9.658679587697929,
         1.0
       ],
       "name": "persp"
@@ -3880,16 +3934,16 @@
       ],
       "matrix": [
         0.9796421931748843,
-        3.7737742273851086e-08,
-        0.20075210753381478,
+        3.7737742275621855e-08,
+        0.20075210753381476,
         0.0,
         0.01203672394916563,
         0.9982007658050005,
-        -0.05873754541497174,
+        -0.05873754541497173,
         0.0,
         -0.20039076980094744,
-        0.059958183032799976,
-        0.9778791963356614,
+        0.05995818303279998,
+        0.9778791963356612,
         0.0,
         0.0,
         0.0,
@@ -3928,30 +3982,10 @@
       "name": "robot_03_gwheel_base"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 0,
       "name": "robot_03_wheel_base_decor"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 1,
       "name": "robot_03_wheel_base"
     },
@@ -3966,72 +4000,22 @@
       "name": "robot_03_gwheel_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 2,
       "name": "robot_03_wheel_rim_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 3,
       "name": "robot_03_skrew2_tire_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 4,
       "name": "robot_03_skrew1_tire_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 5,
       "name": "robot_03_skrew3_tire_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 6,
       "name": "robot_03_tire_left"
     },
@@ -4046,86 +4030,26 @@
       "name": "robot_03_gwheel_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 7,
       "name": "robot_03_tire_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 8,
       "name": "robot_03_skrew3_tire_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 9,
       "name": "robot_03_skrew1_tire_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 10,
       "name": "robot_03_skrew2_tire_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 11,
       "name": "robot_03_wheel_rim_right"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 12,
       "name": "robot_03_wheel_base_joint"
     },
@@ -4161,30 +4085,10 @@
       "name": "robot_03_gchest"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 13,
       "name": "robot_03_body_joint"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 14,
       "name": "robot_03_body_joint_torus"
     },
@@ -4194,16 +4098,6 @@
         35,
         49
       ],
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "name": "robot_03_chest"
     },
     {
@@ -4211,16 +4105,6 @@
         23,
         34
       ],
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         1.0,
         0.0,
@@ -4269,44 +4153,14 @@
       "name": "robot_03_g_left_arm"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 15,
       "name": "robot_03_upper_arm_left"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 16,
       "name": "robot_03_pCylinder39"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 17,
       "name": "robot_03_pCylinder38"
     },
@@ -4317,7 +4171,7 @@
         30
       ],
       "matrix": [
-        0.5172887970084951,
+        0.5172887970084952,
         0.0,
         0.8558106923811005,
         0.0,
@@ -4325,11 +4179,11 @@
         1.0,
         0.0,
         0.0,
-        -0.8558106923811005,
+        -0.8558106923811006,
         -0.0,
-        0.5172887970084947,
+        0.5172887970084948,
         -0.0,
-        -0.9139417658578228,
+        -0.9139417658578229,
         0.0,
         1.6212574726782272,
         1.0
@@ -4337,30 +4191,10 @@
       "name": "robot_03_group6"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 18,
       "name": "robot_03_left_arm_tool_handle"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 19,
       "name": "robot_03_pTorus3"
     },
@@ -4373,58 +4207,18 @@
       "name": "robot_03_gskrewer"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 20,
       "name": "robot_03_left_arm_tool_joint"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 21,
       "name": "robot_03_left_arm_tool_joint_screw"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 22,
       "name": "robot_03_screwdriver"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 23,
       "name": "robot_03_pBodyJointBase1:robot_03_pBodyJointBase1Shape"
     },
@@ -4433,16 +4227,6 @@
         36,
         48
       ],
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         1.0,
         0.0,
@@ -4468,20 +4252,10 @@
         37,
         47
       ],
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
-        0.6596750201723651,
+        0.6596750201723652,
         -0.0,
-        -0.7515509930532704,
+        -0.7515509930532707,
         -0.0,
         0.0,
         1.0,
@@ -4489,7 +4263,7 @@
         0.0,
         0.7515509930532702,
         0.0,
-        0.6596750201723648,
+        0.6596750201723647,
         0.0,
         0.21786061810333804,
         0.0,
@@ -4508,44 +4282,14 @@
       "name": "robot_03_gHandleWithSkews2"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 24,
       "name": "robot_03_pBodyJointBase5"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 25,
       "name": "robot_03_skrew_elbow_right1"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 26,
       "name": "robot_03_skrew_elbow_right2"
     },
@@ -4557,47 +4301,27 @@
         45,
         46
       ],
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         0.8175284780235029,
         0.0,
         -0.5758875943976135,
-        -2.6827453713142304e-17,
+        -2.682745371314229e-17,
         0.0,
         1.0,
         0.0,
         0.0,
-        0.5758875943976135,
+        0.5758875943976134,
         0.0,
-        0.8175284780235026,
-        -1.5469983648917995e-16,
-        0.32629981586325196,
+        0.8175284780235025,
+        -1.5469983648917992e-16,
+        0.32629981586325185,
         0.0,
-        1.0678371133968094,
-        0.9999999999999996
+        1.0678371133968092,
+        0.9999999999999993
       ],
       "name": "robot_03_pPipe16"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         -0.07594167551623016,
         1.2526032947193668e-17,
@@ -4607,7 +4331,7 @@
         0.07594167551623017,
         0.0,
         0.0,
-        -1.1047472510233404e-16,
+        -1.1047472510233405e-16,
         -1.497685472293342e-32,
         0.07594167551623017,
         0.0,
@@ -4620,63 +4344,43 @@
       "name": "robot_03_screw_tongs1"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
-        -0.07594167551623014,
+        -0.07594167551623013,
         -1.2526032947193665e-17,
-        2.9357889719985154e-19,
+        3.9143852959980204e-19,
         0.0,
         9.300144644630627e-18,
         -0.07594167551623017,
-        -0.0,
+        -1.462583469036467e-35,
         -0.0,
         0.0,
         0.0,
         0.07594167551623017,
         0.0,
-        2.6923830407334366,
+        2.692383040733436,
         1.6608595713868457,
-        0.018991645047610924,
+        0.01899164504761092,
         1.0
       ],
       "mesh": 27,
       "name": "robot_03_screw_tongs2"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
-        -0.043226234379777025,
-        -0.0,
-        2.056319352793608,
+        -0.04322623437977703,
+        2.4748975907137836e-17,
+        2.0563193527936083,
         -0.0,
         0.0,
         2.0567751891646107,
         0.0,
         0.0,
         2.0563193527936074,
-        0.0,
+        8.920540793126093e-19,
         0.04322623437977702,
         0.0,
-        -0.26350621066287316,
-        1.9612894319992435,
+        -0.2635062106628732,
+        1.9612894319992438,
         18.45164400495206,
         1.0
       ],
@@ -4684,146 +4388,56 @@
       "name": "robot_03_tongs2"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
-        0.07467930539110666,
-        -7.378147259397095e-17,
+        0.07467930539110665,
+        -9.83752967919613e-17,
         -2.0554207113368093,
-        -1.229691209899516e-17,
+        -1.2296912098995163e-17,
         0.0,
         2.0567751891646107,
         0.0,
         0.0,
-        2.0554207113368097,
+        2.05542071133681,
         0.0,
         0.07467930539110666,
         0.0,
         0.7976097134592852,
-        1.9612894319992429,
-        -18.552821931849675,
+        1.9612894319992427,
+        -18.55282193184967,
         0.9999999999999999
       ],
       "mesh": 28,
       "name": "robot_03_tongs1"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 29,
       "name": "robot_03_pPipe16:robot_03_pPipe16Shape"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 30,
       "name": "robot_03_upper_arm_right:robot_03_upper_arm_rightShape"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 31,
       "name": "robot_03_pBodyJointBase6:robot_03_pBodyJointBase6Shape"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 32,
       "name": "robot_03_chest:robot_03_chestShape"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 33,
       "name": "robot_03_pTorus4"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 34,
       "name": "robot_03_pTorus1"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 35,
       "name": "robot_03_pTorus2"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         1.0,
         0.0,
@@ -4861,146 +4475,56 @@
       "matrix": [
         0.9950390536893413,
         -0.00825695831123047,
-        0.09914215425773816,
+        0.09914215425773817,
         0.0,
-        -7.855532738373111e-09,
+        -7.855532736632383e-09,
         0.9965496182260626,
-        0.08299672368360123,
+        0.08299672368360121,
         0.0,
-        -0.09948544255006005,
-        -0.08258493856306476,
+        -0.09948544255006003,
+        -0.08258493856306474,
         0.9916059170662137,
         0.0,
-        -4.761416316431677e-08,
-        0.008212907779834418,
-        -0.19756812385414846,
+        -4.761416316084732e-08,
+        0.008212907779834416,
+        -0.1975681238541485,
         1.0
       ],
       "name": "robot_03_ghead"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 37,
       "name": "robot_03_pTorus5"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 38,
       "name": "robot_03_head1"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 39,
       "name": "robot_03_pCylinder89"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 40,
       "name": "robot_03_pCylinder88"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 41,
       "name": "robot_03_pPipe23"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 42,
       "name": "robot_03_pPipe24"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 43,
       "name": "robot_03_pCube35"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 44,
       "name": "robot_03_pTorus7"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "matrix": [
         1.0,
         0.0,
@@ -5023,60 +4547,75 @@
       "name": "robot_03_pTorus6"
     },
     {
-      "extensions": {
-        "NV_Iray": {
-          "caustic": true,
-          "caustic_cast": true,
-          "caustic_recv": true,
-          "globillum": true,
-          "globillum_cast": true,
-          "globillum_recv": true
-        }
-      },
       "mesh": 46,
       "name": "robot_03_pCylinder91"
     },
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": 2,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            0.9774033427238464,
-            2.3892250061035156,
-            -1.0587483644485474
-          ],
-          "iview:position": [
-            0.9362397193908691,
-            1.4583386182785034,
-            -4.176489353179932
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
-          ],
-          "label": 15990269
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": 2
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                0.9934406876564026,
+                2.7518980503082275,
+                0.15592239797115326
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                0.9362396597862244,
+                1.4583386182785034,
+                -4.176488876342773
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
+          ]
         }
       },
       "matrix": [
         -0.9999128444891991,
-        1.9988751216169735e-10,
-        0.013201890015842292,
+        1.99887512595416e-10,
+        0.01320189001584229,
         -0.0,
-        -0.003776717577018189,
+        -0.0037767175770181886,
         0.9582075000925178,
-        -0.2860490671791023,
+        -0.28604906717910217,
         0.0,
         -0.01265015041332964,
         -0.28607401442083785,
-        -0.9581239930217985,
+        -0.9581239930217983,
         -0.0,
-        0.936239671179287,
-        1.458338576449955,
-        -4.176488984973064,
+        0.9362396711792869,
+        1.4583385764499546,
+        -4.176488984973063,
         1.0
       ],
       "name": "iview_camera_inst"
@@ -5084,43 +4623,69 @@
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": 3,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            1.019755244255066,
-            3.0240442752838135,
-            -0.8406825065612793
-          ],
-          "iview:position": [
-            5.696990966796875,
-            2.5506644248962402,
-            0.3355676233768463
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": 3
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                -0.33619269728660583,
+                3.1612789630889893,
+                -1.181681752204895
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                5.696990966796875,
+                2.5506644248962402,
+                0.3355676233768463
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
           ]
         }
       },
       "matrix": [
-        0.24388995465974178,
-        -2.8688954107207053e-10,
+        0.2438899546597418,
+        -2.8688955895945206e-10,
         -0.9698029091452303,
         -0.0,
-        0.0947339144693286,
+        0.09473391446932863,
         0.9952175247830739,
-        0.023824067763791337,
+        0.02382406776379134,
         0.0,
-        0.9651648461958738,
-        -0.09768368015241113,
-        0.24272355711052573,
+        0.965164846195874,
+        -0.09768368015241129,
+        0.2427235571105257,
         -0.0,
-        5.696990938845247,
-        2.550664451700771,
-        0.3355676212979338,
+        5.696990938845248,
+        2.5506644517007704,
+        0.3355676212979339,
         1.0
       ],
       "name": "iview_camera_4_inst"
@@ -5128,43 +4693,69 @@
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": 4,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            0.9615088701248169,
-            2.438551425933838,
-            -0.9464939832687378
-          ],
-          "iview:position": [
-            8.164044380187988,
-            1.0617400407791138,
-            2.7949118614196777
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": 4
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                0.5572911500930786,
+                2.515820264816284,
+                -1.1564675569534302
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                8.164044380187988,
+                1.0617398023605347,
+                2.794912099838257
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
           ]
         }
       },
       "matrix": [
-        0.46097326018807605,
-        -8.412434963345844e-09,
-        -0.8874140277807789,
+        0.460973260188076,
+        -8.412434963345843e-09,
+        -0.8874140277807788,
         -0.0,
         0.14841617354847347,
-        0.9859152550402884,
-        0.07709578663872448,
+        0.9859152550402883,
+        0.07709578663872445,
         0.0,
         0.8749150507510386,
         -0.16724569579420062,
         0.45448054930267173,
         0.0,
-        8.16404472380394,
-        1.0617398564732559,
-        2.7949120762835555,
+        8.164044723803942,
+        1.0617398564732556,
+        2.7949120762835564,
         1.0
       ],
       "name": "iview_camera_7_inst"
@@ -5172,43 +4763,69 @@
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": 5,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            1.3722608089447021,
-            2.540390968322754,
-            -1.6988502740859985
-          ],
-          "iview:position": [
-            4.49407958984375,
-            2.025782346725464,
-            -0.4849444627761841
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": 5
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                -0.0689973458647728,
+                2.7779717445373535,
+                -2.25927734375
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                4.49407958984375,
+                2.025782346725464,
+                -0.4849444329738617
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
           ]
         }
       },
       "matrix": [
-        0.3624112925504906,
-        -9.454881454672693e-10,
-        -0.9320182601797653,
+        0.36241129255049065,
+        -9.454881305772312e-10,
+        -0.9320182601797654,
         -0.0,
-        0.14153121155875606,
-        0.9884028590694283,
-        0.05503380149613394,
+        0.1415312115587561,
+        0.9884028590694282,
+        0.055033801496133926,
         0.0,
         0.9212095170254321,
-        -0.1518545501232447,
-        0.35820834950798197,
+        -0.15185455012324453,
+        0.35820834950798186,
         -0.0,
         4.494079634891649,
         2.025782433319245,
-        -0.48494443477173166,
+        -0.48494443477173194,
         1.0
       ],
       "name": "iview_camera_8_inst"
@@ -5216,43 +4833,69 @@
     {
       "camera": 0,
       "extensions": {
-        "NV_Iray": {
-          "iview:fkey": -1,
-          "iview:fov": 54.432228088378906,
-          "iview:interest": [
-            -0.10251715779304504,
-            2.4634995460510254,
-            -0.6453153491020203
-          ],
-          "iview:position": [
-            7.986387252807617,
-            1.3583227396011353,
-            -2.840679883956909
-          ],
-          "iview:roll": 0.0,
-          "iview:up": [
-            0.0,
-            1.0,
-            0.0
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "iview:up",
+              "type": "Float32<3>",
+              "value": [
+                0.0,
+                1.0,
+                0.0
+              ]
+            },
+            {
+              "name": "iview:roll",
+              "type": "Float32",
+              "value": 0.0
+            },
+            {
+              "name": "iview:fkey",
+              "type": "Sint32",
+              "value": -1
+            },
+            {
+              "name": "iview:interest",
+              "type": "Float32<3>",
+              "value": [
+                -0.2274874597787857,
+                2.480574131011963,
+                -0.6113978624343872
+              ]
+            },
+            {
+              "name": "iview:position",
+              "type": "Float32<3>",
+              "value": [
+                6.457442283630371,
+                3.485929250717163,
+                -5.902698516845703
+              ]
+            },
+            {
+              "name": "iview:fov",
+              "type": "Float32",
+              "value": 55.865238189697266
+            }
           ]
         }
       },
       "matrix": [
-        -0.2619289433570578,
-        -7.189914220371428e-18,
-        -0.965087161157921,
+        -0.6206354814017292,
+        1.7699019860818806e-17,
+        -0.7840992279203213,
         -0.0,
-        0.12616304104716883,
-        0.9914183913061502,
-        -0.03424120987429718,
+        -0.0918260572165545,
+        0.9931189199500344,
+        0.07268277686865712,
         0.0,
-        0.9568051607854056,
-        -0.13072709504890437,
-        -0.25968117165957405,
+        0.7787037783658854,
+        0.1171102507779611,
+        -0.6163648389723551,
         0.0,
-        7.98638712187856,
-        1.3583226990590256,
-        -2.840679935127587,
+        6.457442409884846,
+        3.4859292290856567,
+        -5.90269840203534,
         1.0
       ],
       "name": "iview_camera_9_inst"
@@ -5262,183 +4905,149 @@
   "scenes": [
     {
       "extensions": {
-        "NV_Iray": {
-          "IVP_color": [
-            1.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "ambient occlusion": false,
-          "ambient occlusion cache": false,
-          "ambient occlusion cache density": 1.0,
-          "contrast all buffers": true,
-          "environment lighting mode": "off",
-          "environment lighting quality": 0.20000000298023224,
-          "environment lighting scale": [
-            1.0,
-            1.0,
-            1.0,
-            0.0
-          ],
-          "environment lighting shadow": "transparent",
-          "environment_dome_depth": 200.0,
-          "environment_dome_ground": true,
-          "environment_dome_ground_glossiness": 100.0,
-          "environment_dome_ground_position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "environment_dome_ground_reflectivity": [
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ],
-          "environment_dome_ground_shadow_intensity": 1.0,
-          "environment_dome_ground_texturescale": 1.0,
-          "environment_dome_height": 200.0,
-          "environment_dome_mode": "infinite",
-          "environment_dome_position": [
-            0.0,
-            0.0,
-            0.0
-          ],
-          "environment_dome_radius": 100.0,
-          "environment_dome_rotation_angle": 0.0,
-          "environment_dome_width": 200.0,
-          "environment_function=": 0,
-          "environment_function_intensity": 1.0,
-          "face_back": true,
-          "face_front": true,
-          "fg_falloff_start": 0.0,
-          "fg_falloff_stop": 0.0,
-          "finalgather mode": "automatic",
-          "finalgather normal tolerance": 25.841999053955078,
-          "finalgather_recv": true,
-          "geom displace motion factor": 1.0,
-          "gi": false,
-          "gi deferred": "gpu",
-          "gi filter": 1.0,
-          "gi freeze": false,
-          "gi gpu": "off",
-          "gi gpu presample density": 1.0,
-          "importon": false,
-          "importon density": 1.0,
-          "importon merge": 0.0,
-          "importon traverse": true,
-          "iray": false,
-          "iray_architectural_sampler": false,
-          "iray_caustic_sampler": false,
-          "iray_degrain_filtering_blur_difference": 0.05000000074505806,
-          "iray_firefly_filter": true,
-          "iray_instancing": "off",
-          "iray_optix_prime": true,
-          "irradiance particles": false,
-          "irradiance particles env": true,
-          "irradiance particles rebuild": true,
-          "irradiance particles scale": 1.0,
-          "irt_ambient_falloff_max_distance": 1000.0,
-          "irt_ambient_falloff_min_distance": 1000.0,
-          "irt_ambient_intensity": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "irt_area_as_point_lights": false,
-          "irt_environment_occlusion_scale": 1.0,
-          "irt_first_frame_antialiasing": true,
-          "irt_indirect_outlier_rejection": true,
-          "irt_psf_enable": false,
-          "irt_psf_geometry_filter": 1.0,
-          "irt_psf_lighting_filter": 1.0,
-          "irt_shadows": true,
-          "irt_use_ambient_occlusion": false,
-          "iview::inline_color": [
-            1.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "iview::inline_width": 1.0,
-          "iview::magnifier_size": 300,
-          "iview::offset": 10.0,
-          "iview::outline_color": [
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ],
-          "iview::outline_width": 2.0,
-          "iview::overview": true,
-          "iview::zoom_factor": 1.0,
-          "iview:sunsky:active": true,
-          "iview:sunsky:date": "Thu Dec 17 2015",
-          "iview:sunsky:dst": false,
-          "iview:sunsky:latitude": 37.31999969482422,
-          "iview:sunsky:longitude": -122.02999877929688,
-          "iview:sunsky:time": "12:00:00",
-          "iview:sunsky:timezone": "America/Los_Angeles",
-          "jitter": 0.0,
-          "light importance sampling": "on",
-          "light importance sampling precomputed": false,
-          "light importance sampling quality": 1.0,
-          "light importance sampling resolution": 1.0,
-          "light relative scale": 0.3183099925518036,
-          "maya allocate temp data on heap": false,
-          "maya custom alpha": true,
-          "maya custom depth": false,
-          "maya custom label": false,
-          "maya filter size compute": true,
-          "maya filter size default": 9.999999747378752e-05,
-          "maya shader glow": true,
-          "maya shader glow buffer": "mayaGlow",
-          "mila clamp level": 1.0,
-          "mila clamp output": false,
-          "mila diffuse detail": false,
-          "mila diffuse detail distance": 10.0,
-          "mila diffuse quality": 1.0,
-          "mila glossy quality": 1.0,
-          "mila quality": 1.0,
-          "mila scatter quality": 1.0,
-          "mila scatter scale": 1.0,
-          "mila use max distance inside": true,
-          "progressive_rendering": false,
-          "radius": 1.5,
-          "rast motion factor": 1.0,
-          "rast useopacity": true,
-          "ray differentials": true,
-          "reflection_recv": true,
-          "refraction_recv": true,
-          "samples": 1.0,
-          "samples error cutoff": [
-            0.0,
-            0.0,
-            0.0,
-            0.0
-          ],
-          "samples max": 100.0,
-          "samples min": 1.0,
-          "samples per object": false,
-          "samples quality": [
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ],
-          "samples_adaptivity": 16.0,
-          "shadow_cast": true,
-          "shadow_recv": true,
-          "shutter full close": 0.800000011920929,
-          "shutter full open": 0.20000000298023224,
-          "shutter shape function": "none",
-          "trace camera clip": false,
-          "trace camera motion vectors": false,
-          "transparency_cast": true,
-          "transparency_recv": true,
-          "unified sampling": true
+        "NV_attributes_iray": {
+          "attributes": [
+            {
+              "name": "shadow_cast",
+              "type": "Boolean",
+              "value": true
+            },
+            {
+              "name": "shadow_recv",
+              "type": "Boolean",
+              "value": true
+            },
+            {
+              "name": "samples",
+              "type": "Float32",
+              "value": 4.0
+            },
+            {
+              "name": "depth_reflect",
+              "type": "Sint32",
+              "value": 4
+            },
+            {
+              "name": "depth_transp",
+              "type": "Sint32",
+              "value": 4
+            },
+            {
+              "name": "depth",
+              "type": "Sint32",
+              "value": 4
+            },
+            {
+              "name": "iview::inline_width",
+              "type": "Float32",
+              "value": 1.0
+            },
+            {
+              "name": "iview::magnifier_size",
+              "type": "Sint32",
+              "value": 300
+            },
+            {
+              "name": "iview:sunsky:latitude",
+              "type": "Float32",
+              "value": 37.31999969482422
+            },
+            {
+              "name": "iview::outline_width",
+              "type": "Float32",
+              "value": 2.0
+            },
+            {
+              "name": "iview::zoom_factor",
+              "type": "Float32",
+              "value": 1.0
+            },
+            {
+              "name": "iview:sunsky:active",
+              "type": "Boolean",
+              "value": false
+            },
+            {
+              "name": "iview:sunsky:dst",
+              "type": "Boolean",
+              "value": false
+            },
+            {
+              "call": 0,
+              "name": "environment_function",
+              "type": "Ref"
+            },
+            {
+              "name": "iview::offset",
+              "type": "Float32",
+              "value": 10.0
+            },
+            {
+              "name": "iray_instancing",
+              "type": "String",
+              "value": "off"
+            },
+            {
+              "name": "iview:sunsky:date",
+              "type": "String",
+              "value": "Thu Nov 5 2020"
+            },
+            {
+              "name": "iview::overview",
+              "type": "Boolean",
+              "value": true
+            },
+            {
+              "name": "iview:sunsky:timezone",
+              "type": "String",
+              "value": "America/Los_Angeles"
+            },
+            {
+              "name": "iview:sunsky:longitude",
+              "type": "Float32",
+              "value": -122.03500366210938
+            },
+            {
+              "name": "IVP_color",
+              "type": "Color",
+              "value": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "name": "iview:sunsky:time",
+              "type": "String",
+              "value": "12:00:00"
+            },
+            {
+              "name": "depth_cutout",
+              "type": "Sint32",
+              "value": 16
+            },
+            {
+              "name": "iview::inline_color",
+              "type": "Color",
+              "value": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "name": "iview::outline_color",
+              "type": "Color",
+              "value": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ]
         }
       },
       "nodes": [
@@ -5450,12 +5059,6 @@
         68,
         69
       ]
-    }
-  ],
-  "textures": [
-    {
-      "name": "tex_1",
-      "source": 0
     }
   ]
 }
