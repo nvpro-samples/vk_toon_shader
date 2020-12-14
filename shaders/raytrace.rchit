@@ -33,7 +33,7 @@ layout(set = 1, binding = B_VERTICES) readonly buffer _VertexBuf {float vertices
 layout(set = 1, binding = B_INDICES) readonly buffer _Indices {uint indices[];};
 layout(set = 1, binding = B_NORMALS) readonly buffer _NormalBuf {float normals[];};
 layout(set = 1, binding = B_TEXCOORDS) readonly buffer _TexCoordBuf {float texcoord0[];};
-layout(set = 1, binding = B_MATERIAL) readonly buffer _MaterialBuffer {Material materials[];};
+layout(set = 1, binding = B_MATERIAL) readonly buffer _MaterialBuffer {GltfShadeMaterial materials[];};
 layout(set = 1, binding = B_TEXTURES) uniform sampler2D texturesMap[]; // all textures
 // clang-format on
 
@@ -160,7 +160,7 @@ void main()
   );
 
   // Retrieve the material on this hit
-  Material material = materials[state.matIndex];
+  GltfShadeMaterial material = materials[state.matIndex];
 
   // The albedo may be defined from a base texture or a flat color
   vec3 baseColor = material.pbrBaseColorFactor.rgb;

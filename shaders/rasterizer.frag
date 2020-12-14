@@ -9,7 +9,7 @@
 
 // clang-format off
 layout(set = 0, binding = B_SCENE) uniform _Scene {Scene sceneInfo; };
-layout(set = 0, binding = B_MATERIAL) readonly buffer _Material {Material materials[];};
+layout(set = 0, binding = B_MATERIAL) readonly buffer _Material {GltfShadeMaterial materials[];};
 layout(set = 0, binding = B_TEXTURES) uniform sampler2D texturesMap[]; // all textures
 // clang-format on
 
@@ -41,7 +41,7 @@ vec3 integerToColor(int val)
 void main()
 {
   // Retrieve the material on this hit
-  Material material = materials[c_matID];
+  GltfShadeMaterial material = materials[c_matID];
 
   // Albedo
   vec3 baseColor = material.pbrBaseColorFactor.rgb;

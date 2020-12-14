@@ -1,4 +1,3 @@
-//! #version 430
 
 //
 // Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
@@ -11,11 +10,13 @@
 //
 
 
-const float M_PI   = 3.14159265358979323846;   // pi
-const float M_PI_2 = 1.57079632679489661923;   // pi/2
-const float M_PI_4 = 0.785398163397448309616;  // pi/4
-const float M_1_PI = 0.318309886183790671538;  // 1/pi
-const float M_2_PI = 0.636619772367581343076;  // 2/pi
+#include "gltf.glsl"
+
+const highp float M_PI   = 3.14159265358979323846f;  // pi
+const highp float M_PI_2 = 1.57079632679489661923f;  // pi/2
+const highp float M_PI_4 = 0.785398163397448309616;  // pi/4
+const highp float M_1_PI = 0.318309886183790671538;  // 1/pi
+const highp float M_2_PI = 0.636619772367581343076;  // 2/pi
 
 //-------------------------------------------------------------------------------------------------
 // random number generator based on the Optix SDK
@@ -25,13 +26,13 @@ uint tea(uint val0, uint val1)
 {
   uint v0 = val0;
   uint v1 = val1;
-  uint s0 = 0;
+  uint s0 = 0u;
 
-  for(uint n = 0; n < 16; n++)
+  for(uint n = 0u; n < 16u; n++)
   {
-    s0 += 0x9e3779b9;
-    v0 += ((v1 << 4) + 0xa341316c) ^ (v1 + s0) ^ ((v1 >> 5) + 0xc8013ea4);
-    v1 += ((v0 << 4) + 0xad90777d) ^ (v0 + s0) ^ ((v0 >> 5) + 0x7e95761e);
+    s0 += 0x9e3779b9u;
+    v0 += ((v1 << 4u) + 0xa341316cu) ^ (v1 + s0) ^ ((v1 >> 5u) + 0xc8013ea4u);
+    v1 += ((v0 << 4u) + 0xad90777du) ^ (v0 + s0) ^ ((v0 >> 5u) + 0x7e95761eu);
   }
 
   return v0;
@@ -158,42 +159,6 @@ struct Scene
   mat4 projection;
   mat4 modelView;
   vec4 camPos;
-};
-
-
-//--------------------------------
-// glTF material representation
-#define MATERIAL_METALLICROUGHNESS 0
-#define MATERIAL_SPECULARGLOSSINESS 1
-
-struct Material
-{
-  int shadingModel;  // 0: metallic-roughness, 1: specular-glossiness
-
-  // PbrMetallicRoughness
-  vec4  pbrBaseColorFactor;
-  int   pbrBaseColorTexture;
-  float pbrMetallicFactor;
-  float pbrRoughnessFactor;
-  int   pbrMetallicRoughnessTexture;
-
-  // KHR_materials_pbrSpecularGlossiness
-  vec4  khrDiffuseFactor;
-  int   khrDiffuseTexture;
-  vec3  khrSpecularFactor;
-  float khrGlossinessFactor;
-  int   khrSpecularGlossinessTexture;
-
-  int   emissiveTexture;
-  vec3  emissiveFactor;
-  int   alphaMode;
-  float alphaCutoff;
-  bool  doubleSided;
-
-  int   normalTexture;
-  float normalTextureScale;
-  int   occlusionTexture;
-  float occlusionTextureStrength;
 };
 
 

@@ -45,6 +45,7 @@
 #include "nvvk/renderpasses_vk.hpp"
 #include "raytracer.hpp"
 #include "shaders/binding.glsl"
+#include "shaders/gltf.glsl"
 
 // Define these only in *one* .cc file.
 #define TINYGLTF_IMPLEMENTATION
@@ -427,7 +428,35 @@ void VkToonExample::createSceneBuffers()
     m_normalBuffer = m_alloc.createBuffer(cmdBuf, m_gltfScene.m_normals, vkBU::eVertexBuffer | vkBU::eStorageBuffer);
     m_uvBuffer     = m_alloc.createBuffer(cmdBuf, m_gltfScene.m_texcoords0, vkBU::eVertexBuffer | vkBU::eStorageBuffer);
     m_indexBuffer  = m_alloc.createBuffer(cmdBuf, m_gltfScene.m_indices, vkBU::eIndexBuffer | vkBU::eStorageBuffer);
-    m_materialBuffer = m_alloc.createBuffer(cmdBuf, m_gltfScene.m_materials, vkBU::eStorageBuffer);
+
+
+    std::vector<GltfShadeMaterial> shadeMaterials;
+    for(auto& m : m_gltfScene.m_materials)
+    {
+      shadeMaterials.emplace_back(GltfShadeMaterial{m.shadingModel,
+                                                    m.pbrBaseColorFactor,
+                                                    m.pbrBaseColorTexture,
+                                                    m.pbrMetallicFactor,
+                                                    m.pbrRoughnessFactor,
+                                                    m.pbrMetallicRoughnessTexture,
+                                                    m.khrDiffuseFactor,
+                                                    m.khrDiffuseTexture,
+                                                    m.khrSpecularFactor,
+                                                    m.khrGlossinessFactor,
+                                                    m.khrSpecularGlossinessTexture,
+                                                    m.emissiveTexture,
+                                                    m.emissiveFactor,
+                                                    m.alphaMode,
+                                                    m.alphaCutoff,
+                                                    m.doubleSided,
+                                                    m.normalTexture,
+                                                    m.normalTextureScale,
+                                                    m.occlusionTexture,
+                                                    m.occlusionTextureStrength
+
+      });
+    }
+    m_materialBuffer = m_alloc.createBuffer(cmdBuf, shadeMaterials, vkBU::eStorageBuffer);
 
 
     // Instance Matrices used by rasterizer
