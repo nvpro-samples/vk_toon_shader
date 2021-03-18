@@ -33,7 +33,7 @@
 class PostCompositing : public PostEffect
 {
 public:
-  const std::string getShaderName() override { return R"(shaders/compositing.frag.spv)"; }
+  const std::string getShaderName() override { return R"(spv/compositing.frag.spv)"; }
 
   // Attaching the 3 input images
   void setInputs(const std::vector<nvvk::Texture>& inputs) override

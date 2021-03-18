@@ -34,7 +34,7 @@
 class PostNrmDepth : public PostEffect
 {
 public:
-  const std::string getShaderName() override { return R"(shaders/contour_normaldepth.frag.spv)"; }
+  const std::string getShaderName() override { return R"(spv/contour_normaldepth.frag.spv)"; }
 
   void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::Allocator* allocator) override
   {
@@ -90,8 +90,8 @@ public:
   bool uiSetup() override
   {
     bool changed{false};
-    changed |= ImGui::SliderFloat("Normal Threshold", &m_pushCnt.normalDiffCoeff, 0.0f, 1.f, "%.3f", 2.0f);
-    changed |= ImGui::SliderFloat("Depth Threshold", &m_pushCnt.depthDiffCoeff, 0.00f, 10.f, "%.3f", 5.0f);
+    changed |= ImGui::SliderFloat("Normal Threshold", &m_pushCnt.normalDiffCoeff, 0.0f, 1.f, "%.3f", ImGuiSliderFlags_Logarithmic);
+    changed |= ImGui::SliderFloat("Depth Threshold", &m_pushCnt.depthDiffCoeff, 0.00f, 10.f, "%.3f", ImGuiSliderFlags_Logarithmic);
     changed |= ImGui::Checkbox("FXAA on Inside Details", &m_useFxaa);
 
     return changed;
@@ -123,7 +123,7 @@ private:
   // Second post effect to anti-alias lines
   struct PostFxaa : public PostEffect
   {
-    const std::string getShaderName() override { return R"(shaders/fxaa.frag.spv)"; }
+    const std::string getShaderName() override { return R"(spv/fxaa.frag.spv)"; }
   };
 
   PostFxaa m_fxaa;

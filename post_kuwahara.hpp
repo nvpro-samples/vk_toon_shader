@@ -35,7 +35,7 @@ class PostKuwahara : public PostEffect
 public:
   PostKuwahara() { m_active = false; }
 
-  const std::string getShaderName() override { return R"(shaders/kuwahara.frag.spv)"; }
+  const std::string getShaderName() override { return R"(spv/kuwahara.frag.spv)"; }
 
   void execute(const vk::CommandBuffer& cmdBuf) override
   {

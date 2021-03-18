@@ -34,8 +34,8 @@
 #include <vulkan/vulkan.hpp>
 
 #include "example.hpp"
-#include "imgui/imgui_orient.h"
-#include "imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/extras/imgui_orient.h"
 #include "imgui_internal.h"
 #include "nvh/fileoperations.hpp"
 #include "nvvk/commands_vk.hpp"
@@ -373,7 +373,7 @@ void VkToonExample::display()
       // Drawing GUI
       ImGui::Render();
       ImDrawData* imguiDrawData = ImGui::GetDrawData();
-      ImGui::RenderDrawDataVK(cmdBuf, imguiDrawData);
+      ImGui_ImplVulkan_RenderDrawData(imguiDrawData, cmdBuf);
       ImGui::EndFrame();
     }
 
@@ -434,16 +434,16 @@ void VkToonExample::createSceneBuffers()
     for(auto& m : m_gltfScene.m_materials)
     {
       shadeMaterials.emplace_back(GltfShadeMaterial{m.shadingModel,
-                                                    m.pbrBaseColorFactor,
-                                                    m.pbrBaseColorTexture,
-                                                    m.pbrMetallicFactor,
-                                                    m.pbrRoughnessFactor,
-                                                    m.pbrMetallicRoughnessTexture,
-                                                    m.khrDiffuseFactor,
-                                                    m.khrDiffuseTexture,
-                                                    m.khrSpecularFactor,
-                                                    m.khrGlossinessFactor,
-                                                    m.khrSpecularGlossinessTexture,
+                                                    m.baseColorFactor,
+                                                    m.baseColorTexture,
+                                                    m.metallicFactor,
+                                                    m.roughnessFactor,
+                                                    m.metallicRoughnessTexture,
+                                                    m.specularGlossiness.diffuseFactor,
+                                                    m.specularGlossiness.diffuseTexture,
+                                                    m.specularGlossiness.specularFactor,
+                                                    m.specularGlossiness.glossinessFactor,
+                                                    m.specularGlossiness.specularGlossinessTexture,
                                                     m.emissiveTexture,
                                                     m.emissiveFactor,
                                                     m.alphaMode,
@@ -492,8 +492,6 @@ void VkToonExample::createSceneBuffers()
 //
 void VkToonExample::createFinalPipeline()
 {
-  std::vector<std::string> paths = defaultSearchPaths;
-
   // Creating the pipeline layout
   vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo;
   pipelineLayoutCreateInfo.setSetLayoutCount(1);
@@ -503,8 +501,8 @@ void VkToonExample::createFinalPipeline()
 
   // Pipeline: completely generic, no vertices
   nvvk::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
-  pipelineGenerator.addShader(nvh::loadFile("shaders/passthrough.vert.spv", true, paths), vk::ShaderStageFlagBits::eVertex);
-  pipelineGenerator.addShader(nvh::loadFile("shaders/final.frag.spv", true, paths), vk::ShaderStageFlagBits::eFragment);
+  pipelineGenerator.addShader(nvh::loadFile("spv/passthrough.vert.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eVertex);
+  pipelineGenerator.addShader(nvh::loadFile("spv/final.frag.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eFragment);
   pipelineGenerator.rasterizationState.setCullMode(vk::CullModeFlagBits::eNone);
 
   m_pipeline = pipelineGenerator.createPipeline();

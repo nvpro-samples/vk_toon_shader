@@ -38,7 +38,7 @@
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 #include "example.hpp"
-#include "imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_glfw.h"
 #include "nvh/fileoperations.hpp"
 #include "nvh/inputparser.h"
 #include "nvpsystem.hpp"
@@ -49,14 +49,7 @@ int const SAMPLE_SIZE_WIDTH  = 1600;
 int const SAMPLE_SIZE_HEIGHT = 1000;
 
 // Default search path for shaders
-std::vector<std::string> defaultSearchPaths{
-    "./",
-    "../",
-    std::string(PROJECT_NAME),
-    std::string("SPV_" PROJECT_NAME),
-    PROJECT_ABSDIRECTORY,
-    NVPSystem::exePath() + std::string(PROJECT_RELDIRECTORY),
-};
+std::vector<std::string> defaultSearchPaths;
 
 
 //--------------------------------------------------------------------------------------------------
@@ -64,6 +57,17 @@ std::vector<std::string> defaultSearchPaths{
 //
 int main(int argc, char** argv)
 {
+  // setup some basic things for the sample, logging file for example
+  NVPSystem system(PROJECT_NAME);
+
+  // Default search path for shaders
+  defaultSearchPaths = {
+      NVPSystem::exePath() + PROJECT_NAME,
+      NVPSystem::exePath() + R"(media)",
+      NVPSystem::exePath() + PROJECT_RELDIRECTORY,
+      NVPSystem::exePath() + PROJECT_DOWNLOAD_RELDIRECTORY,
+  };
+
   // Parsing the command line: mandatory '-f' for the filename of the scene
   InputParser parser(argc, argv);
   std::string filename = parser.getString("-f");
@@ -77,11 +81,8 @@ int main(int argc, char** argv)
   }
   else
   {
-    filename = nvh::findFile("data/robot.gltf", defaultSearchPaths);
+    filename = nvh::findFile("robot/robot.gltf", defaultSearchPaths, true);
   }
-
-  // setup some basic things for the sample, logging file for example
-  NVPSystem system(argv[0], PROJECT_NAME);
 
   // Setup GLFW window
   if(!glfwInit())

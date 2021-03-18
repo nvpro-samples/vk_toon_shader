@@ -33,7 +33,7 @@
 class Tonemapper : public PostEffect
 {
 public:
-  const std::string getShaderName() override { return "shaders/tonemap.frag.spv"; }
+  const std::string getShaderName() override { return "spv/tonemap.frag.spv"; }
 
   // Executing the the tonemapper
   void execute(const vk::CommandBuffer& cmdBuf) override

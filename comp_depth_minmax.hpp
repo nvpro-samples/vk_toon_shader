@@ -50,7 +50,7 @@ public:
     cmdBuf.dispatch(size.width / 32 + 1, size.height / 32 + 1, 1);
 
     // Adding a barrier to make sure the compute is done before one of the fragment
-	// shader picks up the values computed here.
+    // shader picks up the values computed here.
     vk::BufferMemoryBarrier bmb;
     bmb.setSrcAccessMask(vk::AccessFlagBits::eShaderWrite);
     bmb.setDstAccessMask(vk::AccessFlagBits::eShaderRead);
@@ -104,7 +104,7 @@ private:
     m_debug.setObjectName(m_pipelineLayout, "minmax");
     vk::ComputePipelineCreateInfo createInfo{{}, {}, m_pipelineLayout};
 
-    createInfo.stage = nvvk::createShaderStageInfo(m_device, nvh::loadFile("shaders/depthminmax.comp.spv", true, defaultSearchPaths),
+    createInfo.stage = nvvk::createShaderStageInfo(m_device, nvh::loadFile("spv/depthminmax.comp.spv", true, defaultSearchPaths),
                                                    VK_SHADER_STAGE_COMPUTE_BIT);
     m_pipeline = static_cast<const vk::Pipeline&>(m_device.createComputePipeline({}, createInfo, nullptr));
     m_device.destroy(createInfo.stage.module);

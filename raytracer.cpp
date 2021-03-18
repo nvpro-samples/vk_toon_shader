@@ -169,12 +169,12 @@ void Raytracer::updateDescriptorSet()
 
 void Raytracer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayout)
 {
-  std::vector<std::string> paths = defaultSearchPaths;
-  vk::ShaderModule raygenSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/raytrace.rgen.spv", true, paths));
-  vk::ShaderModule missSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/raytrace.rmiss.spv", true, paths));
+  vk::ShaderModule raygenSM =
+      nvvk::createShaderModule(m_device, nvh::loadFile("spv/raytrace.rgen.spv", true, defaultSearchPaths));
+  vk::ShaderModule missSM = nvvk::createShaderModule(m_device, nvh::loadFile("spv/raytrace.rmiss.spv", true, defaultSearchPaths));
   vk::ShaderModule shadowmissSM =
-      nvvk::createShaderModule(m_device, nvh::loadFile("shaders/raytraceShadow.rmiss.spv", true, paths));
-  vk::ShaderModule chitSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/raytrace.rchit.spv", true, paths));
+      nvvk::createShaderModule(m_device, nvh::loadFile("spv/raytraceShadow.rmiss.spv", true, defaultSearchPaths));
+  vk::ShaderModule chitSM = nvvk::createShaderModule(m_device, nvh::loadFile("spv/raytrace.rchit.spv", true, defaultSearchPaths));
 
   std::vector<vk::PipelineShaderStageCreateInfo> stages;
 

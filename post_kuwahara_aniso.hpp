@@ -38,7 +38,7 @@
 class PostKuwaharaAniso : public PostEffect
 {
 public:
-  const std::string getShaderName() override { return R"(shaders/kuwa_aniso.frag.spv)"; }
+  const std::string getShaderName() override { return R"(spv/kuwa_aniso.frag.spv)"; }
 
   void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::Allocator* allocator) override
   {
@@ -287,17 +287,17 @@ private:
 
   struct PostKSst : public PostEffect
   {
-    const std::string getShaderName() override { return R"(shaders/kuwa_sst.frag.spv)"; }
+    const std::string getShaderName() override { return R"(spv/kuwa_sst.frag.spv)"; }
   };
 
   struct PostKTfm : public PostEffect
   {
-    const std::string getShaderName() override { return R"(shaders/kuwa_tfm.frag.spv)"; }
+    const std::string getShaderName() override { return R"(spv/kuwa_tfm.frag.spv)"; }
   };
 
   struct PostGauss : public PostEffect
   {
-    const std::string getShaderName() override { return R"(shaders/kuwa_gauss.frag.spv)"; }
+    const std::string getShaderName() override { return R"(spv/kuwa_gauss.frag.spv)"; }
   };
 
   PostKSst  m_sst;

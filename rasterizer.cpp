@@ -156,8 +156,8 @@ void Rasterizer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayou
   gpb.depthStencilState.depthTestEnable = true;
 
   gpb.addBlendAttachmentState(nvvk::GraphicsPipelineState::makePipelineColorBlendAttachmentState());
-  gpb.addShader(nvh::loadFile("shaders/rasterizer.vert.spv", true, paths), vk::ShaderStageFlagBits::eVertex);
-  gpb.addShader(nvh::loadFile("shaders/rasterizer.frag.spv", true, paths), vk::ShaderStageFlagBits::eFragment);
+  gpb.addShader(nvh::loadFile("spv/rasterizer.vert.spv", true, paths), vk::ShaderStageFlagBits::eVertex);
+  gpb.addShader(nvh::loadFile("spv/rasterizer.frag.spv", true, paths), vk::ShaderStageFlagBits::eFragment);
   gpb.addBindingDescriptions({{0, sizeof(nvmath::vec3)}, {1, sizeof(nvmath::vec3)}, {2, sizeof(nvmath::vec2)}});
   gpb.addAttributeDescriptions({
       {0, 0, vk::Format::eR32G32B32Sfloat, 0},  // Position

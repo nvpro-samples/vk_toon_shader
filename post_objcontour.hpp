@@ -33,7 +33,7 @@
 class PostObjContour : public PostEffect
 {
 public:
-  const std::string getShaderName() override { return R"(shaders/contour_objects.frag.spv)"; }
+  const std::string getShaderName() override { return R"(spv/contour_objects.frag.spv)"; }
 
 
   void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::Allocator* allocator) override
@@ -114,7 +114,7 @@ private:
   // Second post effect to anti-alias lines
   struct PostFxaa : public PostEffect
   {
-    const std::string getShaderName() override { return R"(shaders/fxaa.frag.spv)"; }
+    const std::string getShaderName() override { return R"(spv/fxaa.frag.spv)"; }
   };
 
   PostFxaa m_fxaa;

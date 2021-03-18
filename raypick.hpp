@@ -156,10 +156,9 @@ public:
 
   void createPipeline()
   {
-    std::vector<std::string> paths = defaultSearchPaths;
-    vk::ShaderModule raygenSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/pick.rgen.spv", true, paths));
-    vk::ShaderModule missSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/pick.rmiss.spv", true, paths));
-    vk::ShaderModule chitSM = nvvk::createShaderModule(m_device, nvh::loadFile("shaders/pick.rchit.spv", true, paths));
+    vk::ShaderModule raygenSM = nvvk::createShaderModule(m_device, nvh::loadFile("spv/pick.rgen.spv", true, defaultSearchPaths));
+    vk::ShaderModule missSM = nvvk::createShaderModule(m_device, nvh::loadFile("spv/pick.rmiss.spv", true, defaultSearchPaths));
+    vk::ShaderModule chitSM = nvvk::createShaderModule(m_device, nvh::loadFile("spv/pick.rchit.spv", true, defaultSearchPaths));
 
     std::vector<vk::PipelineShaderStageCreateInfo> stages;
 
@@ -217,7 +216,8 @@ public:
     // Fetch all the shader handles used in the pipeline, so that they can be written in the SBT
     uint32_t             sbtSize = groupCount * alignSize;
     std::vector<uint8_t> shaderHandleStorage(sbtSize);
-    m_device.getRayTracingShaderGroupHandlesNV(m_pipeline, 0, groupCount, sbtSize, shaderHandleStorage.data() /*, NVVKPP_DISPATCHER*/);
+    auto res = m_device.getRayTracingShaderGroupHandlesNV(m_pipeline, 0, groupCount, sbtSize, shaderHandleStorage.data());
+    assert(res == vk::Result::eSuccess);
 
     m_sbtBuffer = m_alloc->createBuffer(sbtSize, vk::BufferUsageFlagBits::eTransferSrc,
                                         vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);

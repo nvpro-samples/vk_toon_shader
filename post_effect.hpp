@@ -202,8 +202,7 @@ protected:
     const std::string& fragProg = getShaderName();
     // Pipeline: completely generic, no vertices
     nvvk::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
-    pipelineGenerator.addShader(nvh::loadFile("shaders/passthrough.vert.spv", true, defaultSearchPaths),
-                                vk::ShaderStageFlagBits::eVertex);
+    pipelineGenerator.addShader(nvh::loadFile("spv/passthrough.vert.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eVertex);
     pipelineGenerator.addShader(nvh::loadFile(fragProg, true, defaultSearchPaths), vk::ShaderStageFlagBits::eFragment);
     pipelineGenerator.rasterizationState.setCullMode(vk::CullModeFlagBits::eNone);
     m_pipeline = pipelineGenerator.createPipeline();
