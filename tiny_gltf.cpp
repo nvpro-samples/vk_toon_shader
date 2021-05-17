@@ -16,24 +16,13 @@
  * SPDX-FileCopyrightText: Copyright (c) 2019-2021 NVIDIA CORPORATION
  * SPDX-License-Identifier: Apache-2.0
  */
+ 
+// Visual Studio warnings
+#ifdef _MSC_VER
+#pragma warning(disable : 4996)  // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
+#endif
 
-#version 460
-#extension GL_NV_ray_tracing : require
-#extension GL_GOOGLE_include_directive : enable
-
-#include "share.glsl"
-
-// Payload information of the ray returning: 0 hit, 2 shadow
-layout(location = 0) rayPayloadInNV PerRayData_pick prd;
-
-// Raytracing hit attributes: barycentrics
-hitAttributeNV vec2 attribs;
-
-void main()
-{
-  prd.worldPos         = vec4(gl_WorldRayOriginNV + gl_WorldRayDirectionNV * gl_HitTNV, 0);
-  prd.barycentrics     = vec4(1.0 - attribs.x - attribs.y, attribs.x, attribs.y, 0);
-  prd.instanceID       = gl_InstanceID;
-  prd.instanceCustomID = gl_InstanceCustomIndexNV;
-  prd.primitiveID      = gl_PrimitiveID;
-}
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "tiny_gltf.h"
