@@ -126,7 +126,7 @@ int main(int argc, char** argv)
   vkctx.setGCTQueueWithPresent(surface);
 
   example.setup(vkctx.m_instance, vkctx.m_device, vkctx.m_physicalDevice, vkctx.m_queueGCT.familyIndex);
-  LOGI("Using %s \n", example.getPhysicalDevice().getProperties().deviceName);
+  LOGI("Using %s \n", example.getPhysicalDevice().getProperties().deviceName.data());
 
   example.createSwapchain(surface, SAMPLE_SIZE_WIDTH, SAMPLE_SIZE_HEIGHT);
   example.createDepthBuffer();
