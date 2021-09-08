@@ -18,7 +18,6 @@
  */
 
 
-
 //--------------------------------------------------------------------------------------------------
 // This example is loading a glTF scene and renders it with a very simple material
 //
@@ -152,7 +151,7 @@ void Rasterizer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayou
   gpb.addBlendAttachmentState(nvvk::GraphicsPipelineState::makePipelineColorBlendAttachmentState());
   gpb.addShader(nvh::loadFile("spv/rasterizer.vert.spv", true, paths), vk::ShaderStageFlagBits::eVertex);
   gpb.addShader(nvh::loadFile("spv/rasterizer.frag.spv", true, paths), vk::ShaderStageFlagBits::eFragment);
-  gpb.addBindingDescriptions({{0, sizeof(nvmath::vec3)}, {1, sizeof(nvmath::vec3)}, {2, sizeof(nvmath::vec2)}});
+  gpb.addBindingDescriptions({{0, sizeof(nvmath::vec3f)}, {1, sizeof(nvmath::vec3f)}, {2, sizeof(nvmath::vec2f)}});
   gpb.addAttributeDescriptions({
       {0, 0, vk::Format::eR32G32B32Sfloat, 0},  // Position
       {1, 1, vk::Format::eR32G32B32Sfloat, 0},  // Normal
