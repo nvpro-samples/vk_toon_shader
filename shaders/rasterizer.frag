@@ -16,7 +16,7 @@
  * SPDX-FileCopyrightText: Copyright (c) 2019-2021 NVIDIA CORPORATION
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 #version 450
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_GOOGLE_include_directive : enable
@@ -28,7 +28,7 @@
 
 // clang-format off
 layout(set = 0, binding = B_SCENE) uniform _Scene {Scene sceneInfo; };
-layout(set = 0, binding = B_MATERIAL) readonly buffer _Material {GltfShadeMaterial materials[];};
+layout(set = 0, binding = B_MATERIAL, scalar) readonly buffer _Material {GltfShadeMaterial materials[];};
 layout(set = 0, binding = B_TEXTURES) uniform sampler2D texturesMap[]; // all textures
 // clang-format on
 

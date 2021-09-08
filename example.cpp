@@ -418,28 +418,7 @@ void VkToonExample::createSceneBuffers()
     std::vector<GltfShadeMaterial> shadeMaterials;
     for(auto& m : m_gltfScene.m_materials)
     {
-      shadeMaterials.emplace_back(GltfShadeMaterial{m.shadingModel,
-                                                    m.baseColorFactor,
-                                                    m.baseColorTexture,
-                                                    m.metallicFactor,
-                                                    m.roughnessFactor,
-                                                    m.metallicRoughnessTexture,
-                                                    m.specularGlossiness.diffuseFactor,
-                                                    m.specularGlossiness.diffuseTexture,
-                                                    m.specularGlossiness.specularFactor,
-                                                    m.specularGlossiness.glossinessFactor,
-                                                    m.specularGlossiness.specularGlossinessTexture,
-                                                    m.emissiveTexture,
-                                                    m.emissiveFactor,
-                                                    m.alphaMode,
-                                                    m.alphaCutoff,
-                                                    m.doubleSided,
-                                                    m.normalTexture,
-                                                    m.normalTextureScale,
-                                                    m.occlusionTexture,
-                                                    m.occlusionTextureStrength
-
-      });
+      shadeMaterials.push_back({m.baseColorFactor, m.baseColorTexture});
     }
     m_materialBuffer = m_alloc.createBuffer(cmdBuf, shadeMaterials, vkBU::eStorageBuffer);
 
@@ -447,8 +426,8 @@ void VkToonExample::createSceneBuffers()
     // Instance Matrices used by rasterizer
     struct sInstMat
     {
-      mat4 matrix;
-      mat4 matrixIT;
+      nvmath::mat4f matrix;
+      nvmath::mat4f matrixIT;
     };
     std::vector<sInstMat> nodeMatrices;
     for(auto& node : m_gltfScene.m_nodes)
@@ -661,9 +640,9 @@ void VkToonExample::settingPostPipeline()
 
 
   // Compositing
-  const nvvk::Texture& color = m_kuwahara.isActive() ?
-                                   (m_kuwaharaAniso.isActive() ? m_kuwaharaAniso.getOutput() : m_kuwahara.getOutput()) :
-                                   m_tonemapper.getOutput();
+  const nvvk::Texture& color    = m_kuwahara.isActive() ?
+                                      (m_kuwaharaAniso.isActive() ? m_kuwaharaAniso.getOutput() : m_kuwahara.getOutput()) :
+                                      m_tonemapper.getOutput();
   const nvvk::Texture& nrmDepth = m_nrmDepth.getOutput();
   const nvvk::Texture& objCont  = m_objContour.getOutput();
   m_compositing.setInputs({color, nrmDepth, objCont});
