@@ -35,7 +35,7 @@ public:
     PostEffect::setup(device, physicalDevice, queueIndex, allocator);
   }
 
-  void initialize(const VkExtent2D& size) override
+  void initialize(const vk::Extent2D& size) override
   {
     m_fxaa.initialize(size);
     PostEffect::initialize(size);
@@ -52,7 +52,7 @@ public:
     m_device.updateDescriptorSets(writes, nullptr);
   }
 
-  void updateRenderTarget(const VkExtent2D& size) override
+  void updateRenderTarget(const vk::Extent2D& size) override
   {
     m_fxaa.updateRenderTarget(size);
     PostEffect::updateRenderTarget(size);

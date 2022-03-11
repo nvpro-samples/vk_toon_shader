@@ -125,7 +125,7 @@ private:
 
     createInfo.stage = nvvk::createShaderStageInfo(m_device, nvh::loadFile("spv/depthminmax.comp.spv", true, defaultSearchPaths),
                                                    VK_SHADER_STAGE_COMPUTE_BIT);
-    m_pipeline = static_cast<const vk::Pipeline&>(m_device.createComputePipeline({}, createInfo, nullptr));
+    m_pipeline = m_device.createComputePipeline({}, createInfo, nullptr).value;
     m_device.destroy(createInfo.stage.module);
   }
 

@@ -41,7 +41,7 @@ public:
     PostEffect::setup(device, physicalDevice, queueIndex, allocator);
   }
 
-  void initialize(const VkExtent2D& size) override
+  void initialize(const vk::Extent2D& size) override
   {
     m_sst.initialize(size);
     m_gauss.initialize(size);
@@ -65,7 +65,7 @@ public:
     m_device.updateDescriptorSets(writes, nullptr);
   }
 
-  void updateRenderTarget(const VkExtent2D& size) override
+  void updateRenderTarget(const vk::Extent2D& size) override
   {
     m_sst.updateRenderTarget(size);
     m_gauss.updateRenderTarget(size);

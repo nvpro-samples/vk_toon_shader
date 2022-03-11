@@ -18,7 +18,6 @@
  */
 
 
-
 #include "raytracer.hpp"
 #include "imgui.h"
 #include "nvh/fileoperations.hpp"
@@ -218,7 +217,7 @@ void Raytracer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayout
   rayPipelineInfo.setPGroups(m_groups.data());
   rayPipelineInfo.setMaxRecursionDepth(10);
   rayPipelineInfo.setLayout(m_pipelineLayout);
-  m_pipeline = static_cast<const vk::Pipeline&>(m_device.createRayTracingPipelineNV({}, rayPipelineInfo));
+  m_pipeline = m_device.createRayTracingPipelineNV({}, rayPipelineInfo).value;
 
   m_device.destroyShaderModule(raygenSM);
   m_device.destroyShaderModule(missSM);
@@ -292,7 +291,7 @@ bool Raytracer::uiSetup()
   if(ImGui::CollapsingHeader("Ray Tracing"))
   {
     modified = false;
-    modified |= ImGui::SliderFloat("Max Ray Length", &m_pushC.maxRayLenght, 1, 1000000, "%.1f", 2.f);
+    modified |= ImGui::SliderFloat("Max Ray Length", &m_pushC.maxRayLenght, 1, 1000000, "%.1f");
     modified |= ImGui::SliderInt("Samples Per Frame", &m_pushC.samples, 1, 100);
     modified |= ImGui::SliderInt("Max Iteration ", &m_maxFrames, 1, 1000);
   }

@@ -56,7 +56,7 @@ public:
     m_debug.setup(device);
   }
 
-  virtual void initialize(const VkExtent2D& size)
+  virtual void initialize(const vk::Extent2D& size)
   {
     createRenderPass();
     createDescriptorSet();
@@ -83,7 +83,7 @@ public:
   bool isActive() { return m_active; }
 
   // Updating the output framebuffer when the image size is changing
-  virtual void updateRenderTarget(const VkExtent2D& size)
+  virtual void updateRenderTarget(const vk::Extent2D& size)
   {
     m_size = size;
 

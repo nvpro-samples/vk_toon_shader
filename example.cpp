@@ -122,7 +122,7 @@ void VkToonExample::loadScene(const std::string& filename)
     for(auto& primMesh : m_gltfScene.m_primMeshes)
     {
       auto geo = primitiveToGeometry(primMesh);
-      blass.push_back({geo});
+      blass.push_back({static_cast<VkGeometryNV>(geo)});
 
       // The following is use to find the primitive mesh information in the CHIT
       primLookup.push_back({primMesh.firstIndex, primMesh.vertexOffset, primMesh.materialIndex});
@@ -349,7 +349,7 @@ void VkToonExample::display()
     // Rendering axis in same render pass
     {
       auto dgbLabel = m_debug.scopeLabel(cmdBuf, "Axes");
-      m_axis.display(cmdBuf, CameraManip.getMatrix(), m_size);
+      m_axis.display(cmdBuf, CameraManip.getMatrix(), static_cast<VkExtent2D&>(m_size));
     }
 
     {
