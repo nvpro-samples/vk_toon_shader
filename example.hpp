@@ -27,7 +27,7 @@
 
 #include "comp_depth_minmax.hpp"
 #include "nvh/gltfscene.hpp"
-#include "nvvk/appbase_vkpp.hpp"
+#include "nvvkhl/appbase_vkpp.hpp"
 #include "nvvk/gizmos_vk.hpp"
 #include "nvvk/images_vk.hpp"
 #include "post_compositing.hpp"
@@ -44,7 +44,7 @@
 //--------------------------------------------------------------------------------------------------
 // Loading a glTF scene, raytrace and tonemap result
 //
-class VkToonExample : public nvvk::AppBase
+class VkToonExample : public nvvkhl::AppBase
 {
 public:
   VkToonExample() = default;

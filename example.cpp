@@ -590,7 +590,7 @@ void VkToonExample::updateCameraBuffer(const vk::CommandBuffer& cmdBuffer)
   m_sceneUbo.projection = nvmath::perspectiveVK(CameraManip.getFov(), aspectRatio, nearPlane, farPlane);
   nvmath::vec3f pos, center, up;
   CameraManip.getLookat(pos, center, up);
-  m_sceneUbo.cameraPosition = pos;
+  m_sceneUbo.cameraPosition = nvmath::vec4f(pos, 1.0f);
 
   cmdBuffer.updateBuffer<VkToonExample::SceneUBO>(m_sceneBuffer.buffer, 0, m_sceneUbo);
 }
@@ -703,7 +703,7 @@ void VkToonExample::importImages(tinygltf::Model& gltfModel)
 //
 void VkToonExample::onKeyboard(int key, int scancode, int action, int mods)
 {
-  nvvk::AppBase::onKeyboard(key, scancode, action, mods);
+  nvvkhl::AppBase::onKeyboard(key, scancode, action, mods);
   if(action == GLFW_RELEASE)
     return;
 
@@ -753,7 +753,7 @@ void VkToonExample::onKeyboard(int key, int scancode, int action, int mods)
     // Set the interest position
     nvmath::vec3f eye, center, up;
     CameraManip.getLookat(eye, center, up);
-    CameraManip.setLookat(eye, pr.worldPos, up, false);
+    CameraManip.setLookat(eye, nvmath::vec3f(pr.worldPos), up, false);
   }
 }
 
