@@ -35,7 +35,7 @@
 
 extern std::vector<std::string> defaultSearchPaths;
 
-void Rasterizer::setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator)
+void Rasterizer::setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator)
 {
   m_device     = device;
   m_queueIndex = queueIndex;
@@ -145,7 +145,7 @@ void Rasterizer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayou
 
   // Pipeline
   std::vector<std::string>                paths = defaultSearchPaths;
-  nvvk::GraphicsPipelineGeneratorCombined gpb(m_device, m_pipelineLayout, m_renderPass);
+  nvvkpp::GraphicsPipelineGeneratorCombined gpb(m_device, m_pipelineLayout, m_renderPass);
   gpb.depthStencilState.depthTestEnable = true;
 
   gpb.addBlendAttachmentState(nvvk::GraphicsPipelineState::makePipelineColorBlendAttachmentState());
@@ -232,13 +232,13 @@ const std::vector<nvvk::Texture>& Rasterizer::outputImages() const
 //
 void Rasterizer::createRenderPass()
 {
-  m_renderPass = nvvk::createRenderPass(m_device, {vk::Format::eR32G32B32A32Sfloat, vk::Format::eR32G32B32A32Sfloat},  // color attachment
-                                        m_depthFormat,                // depth attachment
-                                        1,                            // Nb sub-passes
-                                        true,                         // clearColor
-                                        true,                         // clearDepth
-                                        vk::ImageLayout::eUndefined,  // initialLayout
-                                        vk::ImageLayout::eGeneral);   // finalLayout
+  m_renderPass = nvvkpp::createRenderPass(m_device, {vk::Format::eR32G32B32A32Sfloat, vk::Format::eR32G32B32A32Sfloat},  // color attachment
+                                           m_depthFormat,                // depth attachment
+                                           1,                            // Nb sub-passes
+                                           true,                         // clearColor
+                                           true,                         // clearDepth
+                                           vk::ImageLayout::eUndefined,  // initialLayout
+                                           vk::ImageLayout::eGeneral);   // finalLayout
 
   m_debug.setObjectName(m_renderPass, "General Render Pass");
 }
@@ -262,9 +262,9 @@ void Rasterizer::createOutputImages(vk::Extent2D size)
   // Create two output image, the color and the data
   for(int i = 0; i < 2; i++)
   {
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
     vk::SamplerCreateInfo    samplerCreateInfo;  // default values
-    vk::ImageCreateInfo      imageCreateInfo = nvvk::makeImage2DCreateInfo(size, format, usage);
+    vk::ImageCreateInfo      imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
 
     nvvk::Image image = m_alloc->createImage(cmdBuf, imgSize, nullptr, imageCreateInfo, vk::ImageLayout::eGeneral);
     vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -274,7 +274,7 @@ void Rasterizer::createOutputImages(vk::Extent2D size)
     m_rasterizerOutput.push_back(txt);
   }
   {
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
     createDepthBuffer(cmdBuf, size);
   }
   createFrameBuffer();
@@ -324,21 +324,21 @@ void Rasterizer::createDepthBuffer(vk::CommandBuffer commandBuffer, vk::Extent2D
   m_device.destroy(m_depthImageView);
 
   vk::ImageCreateInfo imageInfo =
-      nvvk::makeImage2DCreateInfo(imageSize, m_depthFormat, vk::ImageUsageFlagBits::eDepthStencilAttachment);
+      nvvkpp::makeImage2DCreateInfo(imageSize, m_depthFormat, vk::ImageUsageFlagBits::eDepthStencilAttachment);
   m_depthImage = m_alloc->createImage(imageInfo);
   m_debug.setObjectName(m_depthImage.image, "m_depthImage");
 
   vk::ImageViewCreateInfo viewInfo =
-      nvvk::makeImage2DViewCreateInfo(m_depthImage.image, m_depthFormat, vk::ImageAspectFlagBits::eDepth);
+      nvvkpp::makeImage2DViewCreateInfo(m_depthImage.image, m_depthFormat, vk::ImageAspectFlagBits::eDepth);
   m_depthImageView = m_device.createImageView(viewInfo);
   m_debug.setObjectName(m_depthImageView, "m_depthImageView");
 
   // Set layout to VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
-  nvvk::cmdBarrierImageLayout(commandBuffer,                                    // Command buffer
-                              m_depthImage.image,                               // Image
-                              vk::ImageLayout::eUndefined,                      // Old layout
-                              vk::ImageLayout::eDepthStencilAttachmentOptimal,  // New layout
-                              vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil);
+  nvvkpp::cmdBarrierImageLayout(commandBuffer,                                    // Command buffer
+                                 m_depthImage.image,                               // Image
+                                 vk::ImageLayout::eUndefined,                      // Old layout
+                                 vk::ImageLayout::eDepthStencilAttachmentOptimal,  // New layout
+                                 vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil);
 }
 
 

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <vulkan/vulkan.hpp>
+#include "nvvk/vulkanhppsupport.hpp"
 
 // Choosing the allocator to use
 // #define ALLOC_DMA
@@ -29,12 +29,12 @@
 
 #if defined(ALLOC_DMA)
 #include <nvvk/memallocator_dma_vk.hpp>
-typedef nvvk::ResourceAllocatorDma Allocator;
+typedef nvvkpp::ResourceAllocatorDma Allocator;
 #elif defined(ALLOC_VMA)
 #include <nvvk/memallocator_vma_vk.hpp>
-typedef nvvk::ResourceAllocatorVma Allocator;
+typedef nvvkpp::ResourceAllocatorVma Allocator;
 #else
-typedef nvvk::ResourceAllocatorDedicated Allocator;
+typedef nvvkpp::ResourceAllocatorDedicated Allocator;
 #endif
 
 using vkDT = vk::DescriptorType;

@@ -27,6 +27,9 @@
 #include "nvvk/descriptorsets_vk.hpp"
 #include "nvvk/images_vk.hpp"
 #include "nvvk/pipeline_vk.hpp"
+#include "nvvk/vulkanhppsupport.hpp"
+
+#include "vk_util.hpp"
 
 #include <algorithm>
 
@@ -48,7 +51,7 @@ class PostEffect
 public:
   PostEffect() = default;
 
-  virtual void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator)
+  virtual void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator)
   {
     m_device     = device;
     m_queueIndex = queueIndex;
@@ -91,8 +94,8 @@ public:
     m_alloc->destroy(m_output);
     vk::SamplerCreateInfo samplerCreateInfo;  // default values
     vk::ImageCreateInfo   imageCreateInfo =
-        nvvk::makeImage2DCreateInfo(m_size, getOutputFormat(),
-                                    vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled);
+        nvvkpp::makeImage2DCreateInfo(m_size, getOutputFormat(),
+                                       vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled);
 
     nvvk::Image             image  = m_alloc->createImage(imageCreateInfo);
     vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -101,7 +104,7 @@ public:
     {
       nvvk::CommandPool scb(m_device, m_queueIndex);
       auto              cmdBuf = scb.createCommandBuffer();
-      nvvk::cmdBarrierImageLayout(cmdBuf, m_output.image, vk::ImageLayout::eUndefined, vk::ImageLayout::eShaderReadOnlyOptimal);
+      nvvkpp::cmdBarrierImageLayout(cmdBuf, m_output.image, vk::ImageLayout::eUndefined, vk::ImageLayout::eShaderReadOnlyOptimal);
       m_alloc->finalizeAndReleaseStaging();
     }
 
@@ -194,7 +197,7 @@ protected:
   {
     const std::string& fragProg = getShaderName();
     // Pipeline: completely generic, no vertices
-    nvvk::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
+    nvvkpp::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
     pipelineGenerator.addShader(nvh::loadFile("spv/passthrough.vert.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eVertex);
     pipelineGenerator.addShader(nvh::loadFile(fragProg, true, defaultSearchPaths), vk::ShaderStageFlagBits::eFragment);
     pipelineGenerator.rasterizationState.setCullMode(vk::CullModeFlagBits::eNone);
@@ -202,19 +205,19 @@ protected:
   }
 
   //
-  bool                        m_active{true};
-  vk::RenderPass              m_renderPass;
-  vk::Pipeline                m_pipeline;
-  vk::PipelineLayout          m_pipelineLayout;
-  nvvk::DescriptorSetBindings m_descSetBind;
-  vk::DescriptorPool          m_descPool;
-  vk::DescriptorSetLayout     m_descSetLayout;
-  vk::DescriptorSet           m_descSet;
-  vk::Extent2D                m_size{0, 0};
-  vk::Framebuffer             m_framebuffer;
-  nvvk::Texture               m_output;
-  vk::Device                  m_device;
-  uint32_t                    m_queueIndex;
-  nvvk::ResourceAllocator*            m_alloc{nullptr};
-  nvvk::DebugUtil             m_debug;
+  bool                           m_active{true};
+  vk::RenderPass                 m_renderPass;
+  vk::Pipeline                   m_pipeline;
+  vk::PipelineLayout             m_pipelineLayout;
+  nvvkpp::DescriptorSetBindings m_descSetBind;
+  vk::DescriptorPool             m_descPool;
+  vk::DescriptorSetLayout        m_descSetLayout;
+  vk::DescriptorSet              m_descSet;
+  vk::Extent2D                   m_size{0, 0};
+  vk::Framebuffer                m_framebuffer;
+  nvvk::Texture                  m_output;
+  vk::Device                     m_device;
+  uint32_t                       m_queueIndex;
+  nvvkpp::ResourceAllocator*    m_alloc{nullptr};
+  nvvk::DebugUtil                m_debug;
 };

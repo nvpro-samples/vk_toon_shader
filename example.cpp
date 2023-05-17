@@ -405,7 +405,7 @@ void VkToonExample::resetFrame()
 void VkToonExample::createSceneBuffers()
 {
   {
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_graphicsQueueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_graphicsQueueIndex);
     m_sceneBuffer = m_alloc.createBuffer(cmdBuf, sizeof(SceneUBO), nullptr, vkBU::eUniformBuffer);
 
     // Creating the GPU buffer of the vertices
@@ -464,7 +464,7 @@ void VkToonExample::createFinalPipeline()
   m_debug.setObjectName(m_pipelineLayout, "Final");
 
   // Pipeline: completely generic, no vertices
-  nvvk::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
+  nvvkpp::GraphicsPipelineGeneratorCombined pipelineGenerator(m_device, m_pipelineLayout, m_renderPass);
   pipelineGenerator.addShader(nvh::loadFile("spv/passthrough.vert.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eVertex);
   pipelineGenerator.addShader(nvh::loadFile("spv/final.frag.spv", true, defaultSearchPaths), vk::ShaderStageFlagBits::eFragment);
   pipelineGenerator.rasterizationState.setCullMode(vk::CullModeFlagBits::eNone);
@@ -600,9 +600,9 @@ void VkToonExample::updateCameraBuffer(const vk::CommandBuffer& cmdBuffer)
 //
 void VkToonExample::createRenderPass()
 {
-  m_renderPass = nvvk::createRenderPass(m_device, {getColorFormat()}, m_depthFormat, 1, true, true);
+  m_renderPass = nvvkpp::createRenderPass(m_device, {getColorFormat()}, m_depthFormat, 1, true, true);
   m_renderPassUI =
-      nvvk::createRenderPass(m_device, {getColorFormat()}, m_depthFormat, 1, false, true, vk::ImageLayout::ePresentSrcKHR);
+      nvvkpp::createRenderPass(m_device, {getColorFormat()}, m_depthFormat, 1, false, true, vk::ImageLayout::ePresentSrcKHR);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -660,7 +660,7 @@ void VkToonExample::importImages(tinygltf::Model& gltfModel)
   if(gltfModel.images.empty())
   {
     // Make dummy image(1,1), needed as we cannot have an empty array
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_graphicsQueueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_graphicsQueueIndex);
     std::array<uint8_t, 4>   white = {255, 255, 255, 255};
     m_textures.emplace_back(m_alloc.createTexture(cmdBuf, 4, white.data(), nvvk::makeImage2DCreateInfo(vk::Extent2D{1, 1}), {}));
     m_debug.setObjectName(m_textures[0].image, "dummy");
@@ -682,11 +682,11 @@ void VkToonExample::importImages(tinygltf::Model& gltfModel)
     void*               buffer          = &gltfimage.image[0];
     VkDeviceSize        bufferSize      = gltfimage.image.size();
     auto                imgSize         = vk::Extent2D(gltfimage.width, gltfimage.height);
-    vk::ImageCreateInfo imageCreateInfo = nvvk::makeImage2DCreateInfo(imgSize, format, vkIU::eSampled, true);
+    vk::ImageCreateInfo imageCreateInfo = nvvkpp::makeImage2DCreateInfo(imgSize, format, vkIU::eSampled, true);
 
     nvvk::Image image = m_alloc.createImage(cmdBuf, bufferSize, buffer, imageCreateInfo);
-    nvvk::cmdGenerateMipmaps(cmdBuf, image.image, format, imgSize, imageCreateInfo.mipLevels);
-    vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
+    nvvkpp::cmdGenerateMipmaps(cmdBuf, image.image, format, imgSize, imageCreateInfo.mipLevels);
+    vk::ImageViewCreateInfo ivInfo = nvvkpp::makeImageViewCreateInfo(image.image, imageCreateInfo);
     m_textures[i]                  = m_alloc.createTexture(image, ivInfo, samplerCreateInfo);
 
     m_debug.setObjectName(m_textures[i].image, std::string("Txt" + std::to_string(i)).c_str());

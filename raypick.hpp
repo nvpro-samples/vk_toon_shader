@@ -29,6 +29,7 @@
 #include "nvvk/debug_util_vk.hpp"
 #include "nvvk/descriptorsets_vk.hpp"
 #include "nvvk/shaders_vk.hpp"
+#include "nvvk/vulkanhppsupport.hpp"
 #include "vk_util.hpp"
 
 
@@ -59,7 +60,7 @@ public:
   nvvk::Buffer m_pickResult;
   nvvk::Buffer m_sbtBuffer;
 
-  nvvk::DescriptorSetBindings m_binding;
+  nvvkpp::DescriptorSetBindings m_binding;
 
   vk::DescriptorPool                       m_descPool;
   vk::DescriptorSetLayout                  m_descSetLayout;
@@ -71,13 +72,13 @@ public:
   vk::PhysicalDevice                       m_physicalDevice;
   vk::Device                               m_device;
   uint32_t                                 m_queueIndex;
-  nvvk::ResourceAllocator*                         m_alloc{nullptr};
+  nvvkpp::ResourceAllocator*              m_alloc{nullptr};
   nvvk::DebugUtil                          m_debug;
 
   RayPicker() = default;
 
 
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator)
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator)
   {
     m_physicalDevice = physicalDevice;
     m_device         = device;

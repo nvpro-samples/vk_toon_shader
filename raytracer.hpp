@@ -52,7 +52,7 @@ public:
   Raytracer();
 
   // Initializing the allocator and querying the raytracing properties
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator);
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator);
 
   bool isValid() { return m_bValid; }
 
@@ -83,11 +83,11 @@ public:
   // To control the raytracer
   bool uiSetup();
 
-  nvvk::RaytracingBuilderNV& builder() { return m_rtBuilder; }
+  nvvkpp::RaytracingBuilderNV& builder() { return m_rtBuilder; }
 
   void setPrimitiveLookup(const std::vector<RtPrimitiveLookup>& primitiveLookup)
   {
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
     m_rtPrimLookup = m_alloc->createBuffer(cmdBuf, primitiveLookup, vk::BufferUsageFlagBits::eStorageBuffer);
     m_debug.setObjectName(m_rtPrimLookup.buffer, "PrimitiveInfo");
   }
@@ -114,23 +114,23 @@ private:
 
   // Raytracer
   nvvk::Buffer                                       m_sbtBuffer;
-  nvvk::RaytracingBuilderNV                          m_rtBuilder;
-  nvvk::DescriptorSetBindings                        m_descSetLayoutBind;
+  nvvkpp::RaytracingBuilderNV                       m_rtBuilder;
+  nvvkpp::DescriptorSetBindings                     m_descSetLayoutBind;
   vk::DescriptorPool                                 m_descPool;
   vk::DescriptorSetLayout                            m_descSetLayout;
   vk::DescriptorSet                                  m_descSet;
   vk::PipelineLayout                                 m_pipelineLayout;
   vk::Pipeline                                       m_pipeline;
   vk::Extent2D                                       m_outputSize;
-  nvvk::DescriptorSetBindings                        m_binding;
+  nvvkpp::DescriptorSetBindings                     m_binding;
   nvvk::Buffer                                       m_rtPrimLookup;
   std::vector<vk::RayTracingShaderGroupCreateInfoNV> m_groups;
 
 
   // Vulkan
-  bool             m_bValid{false};
-  vk::Device       m_device;
-  nvvk::DebugUtil  m_debug;
-  uint32_t         m_queueIndex;
-  nvvk::ResourceAllocator* m_alloc{nullptr};
+  bool                        m_bValid{false};
+  vk::Device                  m_device;
+  nvvk::DebugUtil             m_debug;
+  uint32_t                    m_queueIndex;
+  nvvkpp::ResourceAllocator* m_alloc{nullptr};
 };

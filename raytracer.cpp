@@ -31,7 +31,7 @@ Raytracer::Raytracer() = default;
 //--------------------------------------------------------------------------------------------------
 // Initializing the allocator and querying the raytracing properties
 //
-void Raytracer::setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator)
+void Raytracer::setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator)
 {
   m_device     = device;
   m_queueIndex = queueIndex;
@@ -93,12 +93,12 @@ void Raytracer::createOutputImages(vk::Extent2D size)
   // Create two output image, the color and the data
   for(int i = 0; i < 2; i++)
   {
-    nvvk::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
+    nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
     vk::SamplerCreateInfo    samplerCreateInfo;  // default values
-    vk::ImageCreateInfo      imageCreateInfo = nvvk::makeImage2DCreateInfo(size, format, usage);
+    vk::ImageCreateInfo      imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
 
     nvvk::Image image = m_alloc->createImage(cmdBuf, imgSize, nullptr, imageCreateInfo, vk::ImageLayout::eGeneral);
-    vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
+    vk::ImageViewCreateInfo ivInfo = nvvkpp::makeImageViewCreateInfo(image.image, imageCreateInfo);
     nvvk::Texture           txt    = m_alloc->createTexture(image, ivInfo, samplerCreateInfo);
     txt.descriptor.imageLayout     = VK_IMAGE_LAYOUT_GENERAL;
 

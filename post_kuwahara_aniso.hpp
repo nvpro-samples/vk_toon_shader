@@ -33,7 +33,7 @@ class PostKuwaharaAniso : public PostEffect
 public:
   const std::string getShaderName() override { return R"(spv/kuwa_aniso.frag.spv)"; }
 
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator) override
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator) override
   {
     m_sst.setup(device, physicalDevice, queueIndex, allocator);
     m_gauss.setup(device, physicalDevice, queueIndex, allocator);
@@ -142,17 +142,17 @@ private:
     m_device.waitIdle();
     m_alloc->destroy(m_kernel);
     {
-      nvvk::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
-      vk::SamplerCreateInfo    samplerCreateInfo;  // default values
-      vk::Extent2D             size(krnl_size, krnl_size);
-      vk::ImageCreateInfo      imageCreateInfo = nvvk::makeImage2DCreateInfo(size, vk::Format::eR32Sfloat);
+      nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
+      vk::SamplerCreateInfo       samplerCreateInfo;  // default values
+      vk::Extent2D                size(krnl_size, krnl_size);
+      vk::ImageCreateInfo         imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, vk::Format::eR32Sfloat);
 
       nvvk::Image image = m_alloc->createImage(cmdBuf, krnl_size * krnl_size * sizeof(float), krnl[0], imageCreateInfo);
-      vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
+      vk::ImageViewCreateInfo ivInfo = nvvkpp::makeImageViewCreateInfo(image.image, imageCreateInfo);
       m_kernel                       = m_alloc->createTexture(image, ivInfo, samplerCreateInfo);
 
 
-      nvvk::cmdBarrierImageLayout(cmdBuf, m_kernel.image, vk::ImageLayout::eUndefined, vk::ImageLayout::eShaderReadOnlyOptimal);
+      nvvkpp::cmdBarrierImageLayout(cmdBuf, m_kernel.image, vk::ImageLayout::eUndefined, vk::ImageLayout::eShaderReadOnlyOptimal);
     }
     m_alloc->finalizeAndReleaseStaging();
     m_debug.setObjectName(m_kernel.image, "Kernel");

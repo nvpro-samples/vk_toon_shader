@@ -22,12 +22,13 @@
 #include <array>
 #include <nvmath/nvmath.h>
 
+#include "nvvk/vulkanhppsupport.hpp"
 #include "nvh/gltfscene.hpp"
 #include "nvvk/commands_vk.hpp"
 #include "nvvk/debug_util_vk.hpp"
 #include "nvvk/descriptorsets_vk.hpp"
-#include "vk_util.hpp"
 
+#include "vk_util.hpp"
 
 //--------------------------------------------------------------------------------------------------
 // Simple example showing a cube, camera movement and post-process
@@ -37,7 +38,7 @@ class Rasterizer
 public:
   Rasterizer() = default;
 
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator);
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator);
   void setObjectPointers(nvh::GltfScene* gltfScene,
                          nvvk::Buffer*   vertexBuffer,
                          nvvk::Buffer*   normalBuffer,
@@ -100,5 +101,5 @@ private:
   vk::Device       m_device;
   nvvk::DebugUtil  m_debug;
   uint32_t         m_queueIndex;
-  nvvk::ResourceAllocator* m_alloc{nullptr};
+  nvvkpp::ResourceAllocator* m_alloc{nullptr};
 };

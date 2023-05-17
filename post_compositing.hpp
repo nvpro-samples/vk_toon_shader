@@ -21,6 +21,7 @@
 #pragma once
 
 #include "post_effect.hpp"
+#include "nvvk/resourceallocator_vk.hpp"
 
 // Merge the final frame and add the contour of the normal/depth and object
 class PostCompositing : public PostEffect

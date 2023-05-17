@@ -29,7 +29,7 @@ class PostNrmDepth : public PostEffect
 public:
   const std::string getShaderName() override { return R"(spv/contour_normaldepth.frag.spv)"; }
 
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator) override
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator) override
   {
     m_fxaa.setup(device, physicalDevice, queueIndex, allocator);
     PostEffect::setup(device, physicalDevice, queueIndex, allocator);

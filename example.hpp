@@ -100,10 +100,10 @@ private:
     eScene,  // All scene data
     Total
   };
-  std::vector<vk::DescriptorSetLayout>     m_descSetLayout{Dset::Total};
-  std::vector<vk::DescriptorPool>          m_descPool{Dset::Total};
-  std::vector<vk::DescriptorSet>           m_descSet{Dset::Total};
-  std::vector<nvvk::DescriptorSetBindings> m_descSetLayoutBind{Dset::Total};
+  std::vector<vk::DescriptorSetLayout>        m_descSetLayout{Dset::Total};
+  std::vector<vk::DescriptorPool>             m_descPool{Dset::Total};
+  std::vector<vk::DescriptorSet>              m_descSet{Dset::Total};
+  std::vector<nvvkpp::DescriptorSetBindings> m_descSetLayoutBind{Dset::Total};
 
   // GLTF scene model
   nvh::GltfScene m_gltfScene;   // The scene

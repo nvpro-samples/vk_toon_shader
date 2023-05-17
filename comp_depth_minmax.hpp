@@ -36,7 +36,7 @@ extern std::vector<std::string> defaultSearchPaths;
 class CompDepthMinMax
 {
 public:
-  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvk::ResourceAllocator* allocator)
+  void setup(const vk::Device& device, const vk::PhysicalDevice& physicalDevice, uint32_t queueIndex, nvvkpp::ResourceAllocator* allocator)
   {
     m_device     = device;
     m_queueIndex = queueIndex;
@@ -53,7 +53,7 @@ public:
   void setInput(const nvvk::Texture& dataImage)
   {
     std::vector<vk::WriteDescriptorSet> writes;
-    writes.emplace_back(m_descSetBind.makeWrite(m_descSet, 0, &dataImage.descriptor));  // ray tracing
+    writes.emplace_back(m_descSetBind.nvvk::DescriptorSetBindings::makeWrite(m_descSet, 0, &dataImage.descriptor));  // ray tracing
     vk::DescriptorBufferInfo bi{m_values.buffer, 0, VK_WHOLE_SIZE};
     writes.emplace_back(m_descSetBind.makeWrite(m_descSet, 1, &bi));  // ray tracing
     m_device.updateDescriptorSets(writes, nullptr);
@@ -129,18 +129,18 @@ private:
     m_device.destroy(createInfo.stage.module);
   }
 
-  vk::Device       m_device;
-  uint32_t         m_queueIndex;
-  nvvk::ResourceAllocator* m_alloc{nullptr};
-  nvvk::DebugUtil  m_debug;
+  vk::Device                  m_device;
+  uint32_t                    m_queueIndex;
+  nvvkpp::ResourceAllocator* m_alloc{nullptr};
+  nvvk::DebugUtil             m_debug;
 
   std::array<uint32_t, 2> m_minmax;
   nvvk::Buffer            m_values;  // min/max
 
-  nvvk::DescriptorSetBindings m_descSetBind;
-  vk::DescriptorPool          m_descPool;
-  vk::DescriptorSetLayout     m_descSetLayout;
-  vk::DescriptorSet           m_descSet;
-  vk::Pipeline                m_pipeline;
-  vk::PipelineLayout          m_pipelineLayout;
+  nvvkpp::DescriptorSetBindings m_descSetBind;
+  vk::DescriptorPool             m_descPool;
+  vk::DescriptorSetLayout        m_descSetLayout;
+  vk::DescriptorSet              m_descSet;
+  vk::Pipeline                   m_pipeline;
+  vk::PipelineLayout             m_pipelineLayout;
 };
