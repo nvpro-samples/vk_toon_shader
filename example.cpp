@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2019-2023, NVIDIA CORPORATION.  All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,10 @@
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_vulkan.h"
 #include "example.hpp"
+#include "GLFW/glfw3.h"
+#include "imgui/imgui_helper.h"
 #include "imgui/imgui_orient.h"
 #include "imgui_internal.h"
 #include "nvh/fileoperations.hpp"

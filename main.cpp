@@ -32,7 +32,9 @@ VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_vulkan.h"
 #include "example.hpp"
+#include "GLFW/glfw3.h"
 #include "nvh/fileoperations.hpp"
 #include "nvh/inputparser.h"
 #include "nvpsystem.hpp"
