@@ -129,18 +129,18 @@ private:
     m_device.destroy(createInfo.stage.module);
   }
 
-  vk::Device                  m_device;
-  uint32_t                    m_queueIndex;
+  vk::Device                 m_device;
+  uint32_t                   m_queueIndex;
   nvvkpp::ResourceAllocator* m_alloc{nullptr};
-  nvvk::DebugUtil             m_debug;
+  nvvk::DebugUtil            m_debug;
 
   std::array<uint32_t, 2> m_minmax;
   nvvk::Buffer            m_values;  // min/max
 
   nvvkpp::DescriptorSetBindings m_descSetBind;
-  vk::DescriptorPool             m_descPool;
-  vk::DescriptorSetLayout        m_descSetLayout;
-  vk::DescriptorSet              m_descSet;
-  vk::Pipeline                   m_pipeline;
-  vk::PipelineLayout             m_pipelineLayout;
+  vk::DescriptorPool            m_descPool;
+  vk::DescriptorSetLayout       m_descSetLayout;
+  vk::DescriptorSet             m_descSet;
+  vk::Pipeline                  m_pipeline;
+  vk::PipelineLayout            m_pipelineLayout;
 };

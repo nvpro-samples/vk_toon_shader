@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- // by Jan Eric Kyprianidis <www.kyprianidis.com>
+// by Jan Eric Kyprianidis <www.kyprianidis.com>
 #version 450
 
 layout(set = 0, binding = 0) uniform sampler2D src;

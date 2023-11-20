@@ -23,7 +23,7 @@
 
 // Choosing the allocator to use
 // #define ALLOC_DMA
- #define ALLOC_DEDICATED
+#define ALLOC_DEDICATED
 // #define ALLOC_VMA
 #include <nvvk/resourceallocator_vk.hpp>
 
@@ -54,7 +54,6 @@ using vkMP = vk::MemoryPropertyFlagBits;
 //   ... stuff ...
 //   double time_elapse = timer.elapse();
 // }
-#include "nvmath/nvmath.h"
 #include <chrono>
 
 struct MilliTimer
@@ -71,7 +70,7 @@ struct MilliTimer
   std::chrono::high_resolution_clock::time_point startTime;
 };
 
-inline vk::ClearColorValue makeClearColor(nvmath::vec3f& _c)
+inline vk::ClearColorValue makeClearColor(glm::vec3& _c)
 {
   vk::ClearColorValue cc;
   cc.float32[0] = _c.x;

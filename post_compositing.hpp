@@ -75,9 +75,9 @@ private:
 
   struct PushConstant
   {
-    nvmath::vec3f backgroundColor{1.f};
-    int           setBackground{0};
-    nvmath::vec3f lineColor{0.3f};
+    glm::vec3 backgroundColor{1.f};
+    int       setBackground{0};
+    glm::vec3 lineColor{0.3f};
   };
   PushConstant m_pushCnt;
 };

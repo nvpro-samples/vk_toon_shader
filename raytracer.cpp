@@ -94,8 +94,8 @@ void Raytracer::createOutputImages(vk::Extent2D size)
   for(int i = 0; i < 2; i++)
   {
     nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
-    vk::SamplerCreateInfo    samplerCreateInfo;  // default values
-    vk::ImageCreateInfo      imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
+    vk::SamplerCreateInfo      samplerCreateInfo;  // default values
+    vk::ImageCreateInfo        imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
 
     nvvk::Image image = m_alloc->createImage(cmdBuf, imgSize, nullptr, imageCreateInfo, vk::ImageLayout::eGeneral);
     vk::ImageViewCreateInfo ivInfo = nvvkpp::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -298,7 +298,7 @@ bool Raytracer::uiSetup()
   return modified;
 }
 
-void Raytracer::setClearColor(nvmath::vec3f& _color)
+void Raytracer::setClearColor(glm::vec3& _color)
 {
   m_pushC.backgroundColor = _color;
 }
@@ -308,7 +308,7 @@ void Raytracer::setToonSteps(int nbStep)
   m_pushC.nbSteps = nbStep;
 }
 
-void Raytracer::setToonLightDir(nvmath::vec3f lightDir)
+void Raytracer::setToonLightDir(glm::vec3 lightDir)
 {
   m_pushC.lightDir = lightDir;
 }

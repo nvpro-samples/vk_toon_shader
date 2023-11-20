@@ -50,11 +50,11 @@ public:
 
   struct PickResult
   {
-    nvmath::vec4f worldPos{0, 0, 0, 0};
-    nvmath::vec4f barycentrics{0, 0, 0, 0};
-    uint32_t      intanceID{0};
-    uint32_t      intanceCustomID{0};
-    uint32_t      primitiveID{0};
+    glm::vec4 worldPos{0, 0, 0, 0};
+    glm::vec4 barycentrics{0, 0, 0, 0};
+    uint32_t  intanceID{0};
+    uint32_t  intanceCustomID{0};
+    uint32_t  primitiveID{0};
   };
 
   nvvk::Buffer m_pickResult;
@@ -72,7 +72,7 @@ public:
   vk::PhysicalDevice                       m_physicalDevice;
   vk::Device                               m_device;
   uint32_t                                 m_queueIndex;
-  nvvkpp::ResourceAllocator*              m_alloc{nullptr};
+  nvvkpp::ResourceAllocator*               m_alloc{nullptr};
   nvvk::DebugUtil                          m_debug;
 
   RayPicker() = default;

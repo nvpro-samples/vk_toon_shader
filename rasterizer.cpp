@@ -144,14 +144,14 @@ void Rasterizer::createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayou
   m_pipelineLayout = m_device.createPipelineLayout(pipelineLayoutCreateInfo);
 
   // Pipeline
-  std::vector<std::string>                paths = defaultSearchPaths;
+  std::vector<std::string>                  paths = defaultSearchPaths;
   nvvkpp::GraphicsPipelineGeneratorCombined gpb(m_device, m_pipelineLayout, m_renderPass);
   gpb.depthStencilState.depthTestEnable = true;
 
   gpb.addBlendAttachmentState(nvvk::GraphicsPipelineState::makePipelineColorBlendAttachmentState());
   gpb.addShader(nvh::loadFile("spv/rasterizer.vert.spv", true, paths), vk::ShaderStageFlagBits::eVertex);
   gpb.addShader(nvh::loadFile("spv/rasterizer.frag.spv", true, paths), vk::ShaderStageFlagBits::eFragment);
-  gpb.addBindingDescriptions({{0, sizeof(nvmath::vec3f)}, {1, sizeof(nvmath::vec3f)}, {2, sizeof(nvmath::vec2f)}});
+  gpb.addBindingDescriptions({{0, sizeof(glm::vec3)}, {1, sizeof(glm::vec3)}, {2, sizeof(glm::vec2)}});
   gpb.addAttributeDescriptions({
       {0, 0, vk::Format::eR32G32B32Sfloat, 0},  // Position
       {1, 1, vk::Format::eR32G32B32Sfloat, 0},  // Normal
@@ -216,7 +216,7 @@ void Rasterizer::setToonSteps(int nbStep)
   m_pushC.nbSteps = nbStep;
 }
 
-void Rasterizer::setToonLightDir(nvmath::vec3f lightDir)
+void Rasterizer::setToonLightDir(glm::vec3 lightDir)
 {
   m_pushC.lightDir = lightDir;
 }
@@ -233,12 +233,12 @@ const std::vector<nvvk::Texture>& Rasterizer::outputImages() const
 void Rasterizer::createRenderPass()
 {
   m_renderPass = nvvkpp::createRenderPass(m_device, {vk::Format::eR32G32B32A32Sfloat, vk::Format::eR32G32B32A32Sfloat},  // color attachment
-                                           m_depthFormat,                // depth attachment
-                                           1,                            // Nb sub-passes
-                                           true,                         // clearColor
-                                           true,                         // clearDepth
-                                           vk::ImageLayout::eUndefined,  // initialLayout
-                                           vk::ImageLayout::eGeneral);   // finalLayout
+                                          m_depthFormat,                // depth attachment
+                                          1,                            // Nb sub-passes
+                                          true,                         // clearColor
+                                          true,                         // clearDepth
+                                          vk::ImageLayout::eUndefined,  // initialLayout
+                                          vk::ImageLayout::eGeneral);   // finalLayout
 
   m_debug.setObjectName(m_renderPass, "General Render Pass");
 }
@@ -263,8 +263,8 @@ void Rasterizer::createOutputImages(vk::Extent2D size)
   for(int i = 0; i < 2; i++)
   {
     nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
-    vk::SamplerCreateInfo    samplerCreateInfo;  // default values
-    vk::ImageCreateInfo      imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
+    vk::SamplerCreateInfo      samplerCreateInfo;  // default values
+    vk::ImageCreateInfo        imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, format, usage);
 
     nvvk::Image image = m_alloc->createImage(cmdBuf, imgSize, nullptr, imageCreateInfo, vk::ImageLayout::eGeneral);
     vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -335,10 +335,10 @@ void Rasterizer::createDepthBuffer(vk::CommandBuffer commandBuffer, vk::Extent2D
 
   // Set layout to VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
   nvvkpp::cmdBarrierImageLayout(commandBuffer,                                    // Command buffer
-                                 m_depthImage.image,                               // Image
-                                 vk::ImageLayout::eUndefined,                      // Old layout
-                                 vk::ImageLayout::eDepthStencilAttachmentOptimal,  // New layout
-                                 vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil);
+                                m_depthImage.image,                               // Image
+                                vk::ImageLayout::eUndefined,                      // Old layout
+                                vk::ImageLayout::eDepthStencilAttachmentOptimal,  // New layout
+                                vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil);
 }
 
 

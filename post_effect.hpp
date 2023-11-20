@@ -95,7 +95,7 @@ public:
     vk::SamplerCreateInfo samplerCreateInfo;  // default values
     vk::ImageCreateInfo   imageCreateInfo =
         nvvkpp::makeImage2DCreateInfo(m_size, getOutputFormat(),
-                                       vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled);
+                                      vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled);
 
     nvvk::Image             image  = m_alloc->createImage(imageCreateInfo);
     vk::ImageViewCreateInfo ivInfo = nvvk::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -205,19 +205,19 @@ protected:
   }
 
   //
-  bool                           m_active{true};
-  vk::RenderPass                 m_renderPass;
-  vk::Pipeline                   m_pipeline;
-  vk::PipelineLayout             m_pipelineLayout;
+  bool                          m_active{true};
+  vk::RenderPass                m_renderPass;
+  vk::Pipeline                  m_pipeline;
+  vk::PipelineLayout            m_pipelineLayout;
   nvvkpp::DescriptorSetBindings m_descSetBind;
-  vk::DescriptorPool             m_descPool;
-  vk::DescriptorSetLayout        m_descSetLayout;
-  vk::DescriptorSet              m_descSet;
-  vk::Extent2D                   m_size{0, 0};
-  vk::Framebuffer                m_framebuffer;
-  nvvk::Texture                  m_output;
-  vk::Device                     m_device;
-  uint32_t                       m_queueIndex;
+  vk::DescriptorPool            m_descPool;
+  vk::DescriptorSetLayout       m_descSetLayout;
+  vk::DescriptorSet             m_descSet;
+  vk::Extent2D                  m_size{0, 0};
+  vk::Framebuffer               m_framebuffer;
+  nvvk::Texture                 m_output;
+  vk::Device                    m_device;
+  uint32_t                      m_queueIndex;
   nvvkpp::ResourceAllocator*    m_alloc{nullptr};
-  nvvk::DebugUtil                m_debug;
+  nvvk::DebugUtil               m_debug;
 };

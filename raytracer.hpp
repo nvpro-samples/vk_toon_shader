@@ -92,19 +92,19 @@ public:
     m_debug.setObjectName(m_rtPrimLookup.buffer, "PrimitiveInfo");
   }
 
-  void setClearColor(nvmath::vec3f& _color);
+  void setClearColor(glm::vec3& _color);
   void setToonSteps(int nbStep);
-  void setToonLightDir(nvmath::vec3f lightDir);
+  void setToonLightDir(glm::vec3 lightDir);
 
 private:
   struct PushConstant
   {
-    nvmath::vec3f backgroundColor{1, 1, 1};
-    int           frame{0};  // Current frame number
-    nvmath::vec3f lightDir{-1, -1, -1};
-    float         maxRayLenght{100000};
-    int           samples{1};  // samples per frame
-    int           nbSteps{3};  // Dither
+    glm::vec3 backgroundColor{1, 1, 1};
+    int       frame{0};  // Current frame number
+    glm::vec3 lightDir{-1, -1, -1};
+    float     maxRayLenght{100000};
+    int       samples{1};  // samples per frame
+    int       nbSteps{3};  // Dither
   } m_pushC;
 
   int m_maxFrames{50};  // Max iterations
@@ -114,23 +114,23 @@ private:
 
   // Raytracer
   nvvk::Buffer                                       m_sbtBuffer;
-  nvvkpp::RaytracingBuilderNV                       m_rtBuilder;
-  nvvkpp::DescriptorSetBindings                     m_descSetLayoutBind;
+  nvvkpp::RaytracingBuilderNV                        m_rtBuilder;
+  nvvkpp::DescriptorSetBindings                      m_descSetLayoutBind;
   vk::DescriptorPool                                 m_descPool;
   vk::DescriptorSetLayout                            m_descSetLayout;
   vk::DescriptorSet                                  m_descSet;
   vk::PipelineLayout                                 m_pipelineLayout;
   vk::Pipeline                                       m_pipeline;
   vk::Extent2D                                       m_outputSize;
-  nvvkpp::DescriptorSetBindings                     m_binding;
+  nvvkpp::DescriptorSetBindings                      m_binding;
   nvvk::Buffer                                       m_rtPrimLookup;
   std::vector<vk::RayTracingShaderGroupCreateInfoNV> m_groups;
 
 
   // Vulkan
-  bool                        m_bValid{false};
-  vk::Device                  m_device;
-  nvvk::DebugUtil             m_debug;
-  uint32_t                    m_queueIndex;
+  bool                       m_bValid{false};
+  vk::Device                 m_device;
+  nvvk::DebugUtil            m_debug;
+  uint32_t                   m_queueIndex;
   nvvkpp::ResourceAllocator* m_alloc{nullptr};
 };

@@ -23,7 +23,6 @@
 #include "vk_util.hpp"
 
 #include <array>
-#include <nvmath/nvmath.h>
 
 #include "comp_depth_minmax.hpp"
 #include "nvh/gltfscene.hpp"
@@ -67,9 +66,9 @@ public:
 private:
   struct SceneUBO
   {
-    nvmath::mat4f projection;
-    nvmath::mat4f model;
-    nvmath::vec4f cameraPosition{0.f, 0.f, 0.f};
+    glm::mat4 projection;
+    glm::mat4 model;
+    glm::vec4 cameraPosition{0.f, 0.f, 0.f, 1.f};
   };
 
   void createDescriptorMaterial();
@@ -100,9 +99,9 @@ private:
     eScene,  // All scene data
     Total
   };
-  std::vector<vk::DescriptorSetLayout>        m_descSetLayout{Dset::Total};
-  std::vector<vk::DescriptorPool>             m_descPool{Dset::Total};
-  std::vector<vk::DescriptorSet>              m_descSet{Dset::Total};
+  std::vector<vk::DescriptorSetLayout>       m_descSetLayout{Dset::Total};
+  std::vector<vk::DescriptorPool>            m_descPool{Dset::Total};
+  std::vector<vk::DescriptorSet>             m_descSet{Dset::Total};
   std::vector<nvvkpp::DescriptorSetBindings> m_descSetLayoutBind{Dset::Total};
 
   // GLTF scene model
@@ -138,10 +137,10 @@ private:
   // All textures
   std::vector<nvvk::Texture> m_textures;
 
-  bool          m_useRaytracer{true};
-  nvmath::vec3f m_backgroundColor{1.f};      // clear color and miss
-  int           m_toonNbStep{5};             // Toon shading steps
-  nvmath::vec3f m_toonLightDir{-1, -1, -1};  // Toon light
+  bool      m_useRaytracer{true};
+  glm::vec3 m_backgroundColor{1.f};      // clear color and miss
+  int       m_toonNbStep{5};             // Toon shading steps
+  glm::vec3 m_toonLightDir{-1, -1, -1};  // Toon light
 
   // Allocator for buffers and images
   Allocator m_alloc;

@@ -91,10 +91,10 @@ int main(int argc, char** argv)
   // Enabling the extension
   vk::PhysicalDeviceDescriptorIndexingFeaturesEXT feature;
 
-    // Vulkan required extensions
+  // Vulkan required extensions
   assert(glfwVulkanSupported() == 1);
-  uint32_t                count{0};
-  auto                    reqExtensions = glfwGetRequiredInstanceExtensions(&count);
+  uint32_t count{0};
+  auto     reqExtensions = glfwGetRequiredInstanceExtensions(&count);
 
   // Requesting Vulkan extensions and layers
   nvvk::ContextCreateInfo contextInfo;
@@ -157,11 +157,14 @@ int main(int argc, char** argv)
     CameraManip.updateAnim();
     example.display();  // infinitely drawing
   }
-  example.destroy();
-  vkctx.deinit();
+
 
   glfwDestroyWindow(window);
   glfwTerminate();
+
+  example.destroy();
+  vkctx.deinit();
+
 
   return 0;
 }

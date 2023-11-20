@@ -18,9 +18,7 @@
  */
 
 
-
 #include <array>
-#include <nvmath/nvmath.h>
 
 #include "nvvk/vulkanhppsupport.hpp"
 #include "nvh/gltfscene.hpp"
@@ -58,9 +56,9 @@ public:
   void createRenderPass();
   void createPipeline(const vk::DescriptorSetLayout& sceneDescSetLayout);
 
-  void setClearColor(nvmath::vec3f& _color) { m_clearColor = _color; }
+  void setClearColor(glm::vec3& _color) { m_clearColor = _color; }
   void setToonSteps(int nbStep);
-  void setToonLightDir(nvmath::vec3f lightDir);
+  void setToonLightDir(glm::vec3 lightDir);
 
 private:
   void createDepthBuffer(vk::CommandBuffer commandBuffer, vk::Extent2D imageSize);
@@ -70,13 +68,13 @@ private:
 
   struct PushC
   {
-    nvmath::vec3f lightDir{-1, -1, -1};
-    int           nbSteps{5};
-    int           instID{0};
-    int           matID{0};
+    glm::vec3 lightDir{-1, -1, -1};
+    int       nbSteps{5};
+    int       instID{0};
+    int       matID{0};
   } m_pushC;
 
-  nvmath::vec3f m_clearColor{0, 0, 0};
+  glm::vec3 m_clearColor{0, 0, 0};
 
   // Rasterizer
   vk::PipelineLayout         m_pipelineLayout;
@@ -98,8 +96,8 @@ private:
   nvvk::Buffer*   m_indexBuffer{nullptr};
 
   // Vulkan core
-  vk::Device       m_device;
-  nvvk::DebugUtil  m_debug;
-  uint32_t         m_queueIndex;
+  vk::Device                 m_device;
+  nvvk::DebugUtil            m_debug;
+  uint32_t                   m_queueIndex;
   nvvkpp::ResourceAllocator* m_alloc{nullptr};
 };

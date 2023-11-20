@@ -16,7 +16,7 @@
  * SPDX-FileCopyrightText: Copyright (c) 2019-2021 NVIDIA CORPORATION
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 // by Jan Eric Kyprianidis <www.kyprianidis.com>
 // https://github.com/MzHub/gpuakf
 

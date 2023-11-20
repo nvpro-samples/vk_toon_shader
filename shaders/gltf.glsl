@@ -22,7 +22,7 @@
 
 #ifdef __cplusplus
 // GLSL Type
-using vec4 = nvmath::vec4f;
+using vec4 = glm::vec4;
 #endif
 
 struct GltfShadeMaterial

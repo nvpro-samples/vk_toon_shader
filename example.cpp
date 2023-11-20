@@ -192,9 +192,9 @@ vk::GeometryNV VkToonExample::primitiveToGeometry(const nvh::GltfPrimMesh& prim)
 {
   vk::GeometryTrianglesNV triangles;
   triangles.setVertexData(m_vertexBuffer.buffer);
-  triangles.setVertexOffset(prim.vertexOffset * sizeof(nvmath::vec3f));
+  triangles.setVertexOffset(prim.vertexOffset * sizeof(glm::vec3));
   triangles.setVertexCount(prim.vertexCount);
-  triangles.setVertexStride(sizeof(nvmath::vec3f));
+  triangles.setVertexStride(sizeof(glm::vec3));
   triangles.setVertexFormat(vk::Format::eR32G32B32Sfloat);
   triangles.setIndexData(m_indexBuffer.buffer);
   triangles.setIndexOffset(prim.firstIndex * sizeof(uint32_t));
@@ -384,11 +384,11 @@ void VkToonExample::display()
 //
 void VkToonExample::updateFrame()
 {
-  static nvmath::mat4f refCamMatrix;
-  static float         fov = 0;
+  static glm::mat4 refCamMatrix;
+  static float     fov = 0;
 
   auto& m = CameraManip.getMatrix();
-  if(memcmp(&refCamMatrix.a00, &m.a00, sizeof(nvmath::mat4f)) != 0 || fov != CameraManip.getFov())
+  if(refCamMatrix != m || fov != CameraManip.getFov())
   {
     resetFrame();
     refCamMatrix = m;
@@ -430,15 +430,15 @@ void VkToonExample::createSceneBuffers()
     // Instance Matrices used by rasterizer
     struct sInstMat
     {
-      nvmath::mat4f matrix;
-      nvmath::mat4f matrixIT;
+      glm::mat4 matrix;
+      glm::mat4 matrixIT;
     };
     std::vector<sInstMat> nodeMatrices;
     for(auto& node : m_gltfScene.m_nodes)
     {
       sInstMat mat;
       mat.matrix   = node.worldMatrix;
-      mat.matrixIT = nvmath::transpose(nvmath::invert(node.worldMatrix));
+      mat.matrixIT = glm::transpose(glm::inverse(node.worldMatrix));
       nodeMatrices.emplace_back(mat);
     }
     m_matrixBuffer = m_alloc.createBuffer(cmdBuf, nodeMatrices, vkBU::eStorageBuffer);
@@ -591,10 +591,11 @@ void VkToonExample::updateCameraBuffer(const vk::CommandBuffer& cmdBuffer)
   float       farPlane    = m_gltfScene.m_dimensions.radius * 50.0f;
 
   m_sceneUbo.model      = CameraManip.getMatrix();
-  m_sceneUbo.projection = nvmath::perspectiveVK(CameraManip.getFov(), aspectRatio, nearPlane, farPlane);
-  nvmath::vec3f pos, center, up;
+  m_sceneUbo.projection = glm::perspectiveRH_ZO(glm::radians(CameraManip.getFov()), aspectRatio, nearPlane, farPlane);
+  m_sceneUbo.projection[1][1] *= -1;
+  glm::vec3 pos, center, up;
   CameraManip.getLookat(pos, center, up);
-  m_sceneUbo.cameraPosition = nvmath::vec4f(pos, 1.0f);
+  m_sceneUbo.cameraPosition = glm::vec4(pos, 1.0f);
 
   cmdBuffer.updateBuffer<VkToonExample::SceneUBO>(m_sceneBuffer.buffer, 0, m_sceneUbo);
 }
@@ -665,7 +666,7 @@ void VkToonExample::importImages(tinygltf::Model& gltfModel)
   {
     // Make dummy image(1,1), needed as we cannot have an empty array
     nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_graphicsQueueIndex);
-    std::array<uint8_t, 4>   white = {255, 255, 255, 255};
+    std::array<uint8_t, 4>     white = {255, 255, 255, 255};
     m_textures.emplace_back(m_alloc.createTexture(cmdBuf, 4, white.data(), nvvk::makeImage2DCreateInfo(vk::Extent2D{1, 1}), {}));
     m_debug.setObjectName(m_textures[0].image, "dummy");
     return;
@@ -718,9 +719,8 @@ void VkToonExample::onKeyboard(int key, int scancode, int action, int mods)
       fitCamera(m_gltfScene.m_dimensions.min, m_gltfScene.m_dimensions.max, false);
     else
     {
-      nvmath::vec3f eye;
-      m_gltfScene.m_cameras[0].worldMatrix.get_translation(eye);
-      float len = nvmath::length(m_gltfScene.m_dimensions.center - eye);
+      glm::vec3 eye = m_gltfScene.m_cameras[0].worldMatrix[3];
+      float     len = glm::length(m_gltfScene.m_dimensions.center - eye);
       CameraManip.setMatrix(m_gltfScene.m_cameras[0].worldMatrix, false, len);
     }
   }
@@ -751,13 +751,13 @@ void VkToonExample::onKeyboard(int key, int scancode, int action, int mods)
     LOGI("\n Node:  %d", pr.intanceID);
     LOGI("\n PrimMesh:  %d", pr.intanceCustomID);
     LOGI("\n Triangle: %d", pr.primitiveID);
-    LOGI("\n Distance:  %f", nvmath::length(pr.worldPos - m_sceneUbo.cameraPosition));
+    LOGI("\n Distance:  %f", glm::length(pr.worldPos - m_sceneUbo.cameraPosition));
     LOGI("\n Position: %f, %f, %f \n", pr.worldPos.x, pr.worldPos.y, pr.worldPos.z);
 
     // Set the interest position
-    nvmath::vec3f eye, center, up;
+    glm::vec3 eye, center, up;
     CameraManip.getLookat(eye, center, up);
-    CameraManip.setLookat(eye, nvmath::vec3f(pr.worldPos), up, false);
+    CameraManip.setLookat(eye, glm::vec3(pr.worldPos), up, false);
   }
 }
 
@@ -859,9 +859,9 @@ void VkToonExample::drawUI()
     m_rasterizer.setToonSteps(m_toonNbStep);
     m_raytracer.setToonSteps(m_toonNbStep);
     changed |= ImGui::DragFloat2("Light Direction", thetaPhiDeg.data(), 1.f);
-    std::array<float, 2> thetaPhiRad = {deg2rad(thetaPhiDeg[0]), deg2rad(thetaPhiDeg[1])};
-    m_toonLightDir                   = nvmath::normalize(nvmath::vec3f(sin(thetaPhiRad[0]) * cos(thetaPhiRad[1]),
-                                                     sin(thetaPhiRad[0]) * sin(thetaPhiRad[1]), cos(thetaPhiRad[0])));
+    std::array<float, 2> thetaPhiRad = {glm::radians(thetaPhiDeg[0]), glm::radians(thetaPhiDeg[1])};
+    m_toonLightDir                   = glm::normalize(glm::vec3(sin(thetaPhiRad[0]) * cos(thetaPhiRad[1]),
+                                                                sin(thetaPhiRad[0]) * sin(thetaPhiRad[1]), cos(thetaPhiRad[0])));
     m_rasterizer.setToonLightDir(m_toonLightDir);
     m_raytracer.setToonLightDir(m_toonLightDir);
     //--------------------------------------
@@ -902,7 +902,7 @@ void VkToonExample::drawUI()
 
   if(ImGui::CollapsingHeader("Camera"))
   {
-    nvmath::vec3f eye, center, up;
+    glm::vec3 eye, center, up;
     CameraManip.getLookat(eye, center, up);
     changed |= ImGui::DragFloat3("Position", &eye.x);
     changed |= ImGui::DragFloat3("Center", &center.x);

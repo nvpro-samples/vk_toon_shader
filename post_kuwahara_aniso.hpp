@@ -143,9 +143,9 @@ private:
     m_alloc->destroy(m_kernel);
     {
       nvvkpp::ScopeCommandBuffer cmdBuf(m_device, m_queueIndex);
-      vk::SamplerCreateInfo       samplerCreateInfo;  // default values
-      vk::Extent2D                size(krnl_size, krnl_size);
-      vk::ImageCreateInfo         imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, vk::Format::eR32Sfloat);
+      vk::SamplerCreateInfo      samplerCreateInfo;  // default values
+      vk::Extent2D               size(krnl_size, krnl_size);
+      vk::ImageCreateInfo        imageCreateInfo = nvvkpp::makeImage2DCreateInfo(size, vk::Format::eR32Sfloat);
 
       nvvk::Image image = m_alloc->createImage(cmdBuf, krnl_size * krnl_size * sizeof(float), krnl[0], imageCreateInfo);
       vk::ImageViewCreateInfo ivInfo = nvvkpp::makeImageViewCreateInfo(image.image, imageCreateInfo);
@@ -216,7 +216,7 @@ private:
         float y = j - 0.5f * size + 0.5f;
         float r = sqrtf((x * x + y * y));
 
-        float a = 0.5f * atan2(y, x) / float(nv_pi) + k * 1.0f / N;
+        float a = 0.5f * atan2(y, x) / glm::pi<float>() + k * 1.0f / N;
         if(a > 0.5f)
           a -= 1.0f;
         if(a < -0.5f)
