@@ -27,7 +27,7 @@ endif()
 
 _add_project_definitions(${PROJNAME})
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 #####################################################################################
 # additions from packages needed for this sample
